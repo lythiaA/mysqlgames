@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Quest Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            transition: background 0.5s ease-in-out;
+        }
+
+        /* --- New Background Styles --- */
+        body.bg-hub {
+            background: linear-gradient(to bottom, #87CEEB 0%, #a2d2ff 100%);
+        }
+        body.bg-quest-1 {
+            background-color: #f8fafc;
+            background-image: 
+                linear-gradient(#dbeafe 1px, transparent 1px), 
+                linear-gradient(to right, #dbeafe 1px, #f8fafc 1px);
+            background-size: 2rem 2rem;
+        }
+        body.bg-quest-2 {
+            background-color: #f0f5ff;
+            background-image:
+                radial-gradient(circle at 30% 30%, rgba(147, 197, 253, 0.3) 25%, transparent 25.5%),
+                radial-gradient(circle at 70% 70%, rgba(165, 180, 252, 0.3) 25%, transparent 25.5%);
+            background-size: 100% 100%;
+        }
+         body.bg-mid-challenge {
+            background: linear-gradient(to bottom, #475569, #1e293b);
+        }
+        body.bg-quest-3 {
+            background-color: #1e293b; 
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.07) 1px, transparent 1px), 
+                linear-gradient(90deg, rgba(255,255,255,0.07) 1px, transparent 1px);
+            background-size: 1.5em 2em;
+        }
+        body.bg-quest-4 {
+             background-color: #fdf4ff; 
+             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23c084fc' fill-opacity='0.1'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h4v-9H0v-1h4v-9H0v-1h4v-9H0v-1h4v-9H0v-1h4v-9H0v-1h4v-9H0v-1h4v-9H0v-1h4v-9H0v-1h4V0h1v4h9V0h1v4h9V0h1v4h9V0h1v4h9V0h1v4h9V0h1v4h9V0h1v4h9V0h1v4h9V0h1v4h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3Cpath d='M6 5V0h1v5h5v1H6v5H5V6H0V5h5z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        body.bg-final-challenge {
+            background: radial-gradient(ellipse at center, #4c1d95, #1e1b4b);
+        }
+         body.bg-report {
+            background-color: #f1f5f9;
+            background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%2394a3b8' fill-opacity='0.2' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
+        }
+
+
+        .quiz-option { transition: all 0.2s ease-in-out; }
+        .quiz-option:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .correct { background-color: #10B981 !important; color: white; border-color: #059669; }
+        .incorrect { background-color: #EF4444 !important; color: white; border-color: #DC2626; }
+        #modal-overlay, #nickname-modal-overlay { transition: opacity 0.3s ease; }
+        .nav-btn:disabled, .game-over-btn:disabled { background-color: #d1d5db; cursor: not-allowed; opacity: 0.7; }
+        
+        /* New Immersive Roadmap Styles */
+        .roadmap-container { 
+            position: relative; 
+            width: 100%; 
+            height: 450px; 
+            background: linear-gradient(to bottom, #87CEEB 0%, #a2d2ff 100%);
+            border-radius: 1rem; 
+            overflow: hidden; 
+        }
+        .hub-path-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        .scenery {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(to bottom, #34A853 0%, #2E8B57 100%);
+            border-top: 5px solid #006400;
+        }
+         .scenery::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background: linear-gradient(to right, #2E8B57, transparent),
+                        linear-gradient(to left, #3CB371, transparent);
+            background-size: 50px 100%;
+            opacity: 0.3;
+        }
+
+        .quest-hotspot { 
+            position: absolute; 
+            transform: translateX(-50%); 
+            cursor: pointer; 
+            text-align: center; 
+            transition: transform 0.2s ease-in-out; 
+            z-index: 5;
+        }
+        .quest-hotspot:hover { transform: translateX(-50%) scale(1.05); }
+        .hotspot-marker { width: 60px; height: 60px; border-radius: 50%; border: 5px solid white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold; color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .hotspot-label { margin-top: 8px; font-weight: 600; color: #2d3748; background-color: rgba(255, 255, 255, 0.9); padding: 4px 8px; border-radius: 8px; }
+        .quest-locked .hotspot-marker { background-color: #cbd5e0; }
+        .quest-locked { cursor: not-allowed; }
+        
+        /* Clouds */
+        .cloud {
+            position: absolute;
+            background: white;
+            border-radius: 100px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            animation: moveCloud 20s linear infinite alternate;
+        }
+        .cloud.c1 { width: 150px; height: 50px; top: 15%; animation-duration: 70s; }
+        .cloud.c2 { width: 100px; height: 35px; top: 30%; left: 20%; animation-duration: 90s; }
+        .cloud.c3 { width: 120px; height: 40px; top: 10%; left: 70%; animation-duration: 60s; }
+
+        .cloud::after, .cloud::before {
+            content: '';
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .cloud::after {
+            width: 50px;
+            height: 50px;
+            top: -25px;
+            left: 20%;
+        }
+        .cloud::before {
+            width: 70px;
+            height: 70px;
+            top: -35px;
+            right: 15%;
+        }
+        
+        @keyframes moveCloud {
+            from { transform: translateX(-250px); }
+            to { transform: translateX(calc(100vw + 150px)); }
+        }
+
+        /* Hub Controls */
+        .hub-controls {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+        }
+        .side-icon {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: #2d3748;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            transition: all 0.2s ease;
+            position: relative; /* For tooltip */
+        }
+        .side-icon:hover {
+            transform: scale(1.1);
+            background-color: white;
+        }
+        .side-icon .tooltip {
+            visibility: hidden;
+            width: 120px;
+            background-color: #334155;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            top: 50%;
+            right: 120%;
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        .side-icon:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+
+        /* Challenge & Table Styles */
+        .result-table { width: 100%; margin-top: 1rem; border-collapse: collapse; }
+        .result-table th, .result-table td { border: 1px solid #e2e8f0; padding: 8px; text-align: left; }
+        .result-table th { background-color: #f7fafc; }
+        .result-table .null-val { color: #a0aec0; font-style: italic; }
+        .challenge-table td, .challenge-table th { user-select: none; }
+        .challenge-table tbody tr:hover { background-color: #f7fafc; }
+        .highlightable-row { cursor: pointer; }
+        .highlighted { background-color: #bee3f8 !important; color: #2c5282; font-weight: bold; }
+        .checkbox-th label { font-weight: bold; }
+
+        /* Confetti Styles */
+        #confetti-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; }
+        .confetti { position: absolute; width: 10px; height: 10px; background-color: #f00; opacity: 0.7; animation: fall 5s linear forwards; }
+        @keyframes fall {
+            to { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body class="bg-hub">
+
+    <!-- Confetti Container -->
+    <div id="confetti-container"></div>
+
+    <!-- Main Container -->
+    <div id="app-container" class="min-h-screen w-full flex flex-col">
+        <!-- Header will be rendered here by JS -->
+        
+        <!-- Dynamic Content Area (Hub or Quest) -->
+        <main id="dynamic-content" class="flex-grow">
+            <!-- JS will render Hub or Quest view here -->
+        </main>
+    </div>
+
+    <!-- Generic Modal (for explanations, notifications) -->
+    <div id="modal-overlay" class="fixed inset-0 bg-black bg-opacity-90 backdrop-blur-sm flex items-center justify-center p-4 hidden opacity-0 z-50">
+        <div id="modal-content" class="bg-white rounded-lg shadow-2xl p-8 max-w-lg w-full transform transition-transform duration-300 scale-95">
+            <h2 id="modal-title" class="text-2xl font-bold mb-4 text-slate-900"></h2>
+            <div id="modal-text" class="text-slate-700 mb-6"></div>
+            <div id="modal-buttons" class="flex gap-4">
+                <button onclick="closeModal()" class="w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors">
+                    Got it!
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Game Over Modal -->
+    <div id="game-over-modal" class="fixed inset-0 bg-black bg-opacity-90 backdrop-blur-sm flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-white rounded-lg shadow-2xl p-8 text-center">
+            <h2 id="game-over-title" class="text-4xl font-bold text-red-500 mb-4">Game Over</h2>
+            <p id="game-over-text" class="text-slate-700 mb-6 text-lg">You've run out of lives. Don't worry, practice makes perfect!</p>
+            <div id="game-over-buttons" class="flex flex-col sm:flex-row gap-4 justify-center">
+                 <button onclick="restartQuiz()" class="game-over-btn bg-green-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-600 transition-colors text-lg">
+                    Try Again
+                </button>
+                <button id="buy-life-btn" onclick="buyLife()" class="game-over-btn bg-yellow-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-yellow-600 transition-colors text-lg">
+                    Buy Life (30 XP)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nickname Modal -->
+    <div id="nickname-modal-overlay" class="fixed inset-0 bg-black bg-opacity-90 backdrop-blur-sm flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-white rounded-lg shadow-2xl p-8 text-center w-full max-w-md">
+            <h2 class="text-3xl font-bold text-slate-900 mb-4">Welcome to SQL Quest!</h2>
+            <p class="text-slate-600 mb-6">Please enter a nickname to begin your journey.</p>
+            <input type="text" id="nickname-input" class="w-full border border-slate-300 rounded-lg p-3 text-lg text-center focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., DataWizard">
+            <button onclick="saveNickname()" class="w-full mt-4 bg-blue-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-600 transition-colors text-lg">
+                Start Learning
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // --- DATA ---
+        const questsData = {
+            'q1': {
+                title: "Quest 1: The JOIN Syntax",
+                description: "Learn the fundamental structure of a MySQL JOIN, including how to identify the left and right tables.",
+                backgroundClass: 'bg-quest-1',
+                tutorial: [
+                    {
+                        title: "1. Understanding the Structure of a JOIN",
+                        content: `<p>A <strong>JOIN</strong> merges rows from two tables based on a common column. It consists of a Left Table, a Right Table, and a Joining Condition (using <strong>ON</strong>).</p><pre class="bg-slate-800 text-white p-4 rounded-lg text-sm mt-4"><code>SELECT ...\nFROM table1\nJOIN table2 ON table1.column = table2.column;</code></pre>`,
+                        quiz: {
+                            bank: [
+                                { question: "What is the primary purpose of a JOIN clause in SQL?", options: ["To filter rows", "To sort data", "To combine rows from two or more tables", "To delete data"], correctAnswer: "To combine rows from two or more tables", explanation: "The main purpose of a JOIN is to combine rows from multiple tables based on a related column between them." },
+                                { question: "Which keyword is typically used to specify the joining condition?", options: ["WHERE", "CONDITION", "ON", "LINK"], correctAnswer: "ON", explanation: "The ON keyword follows the JOIN clause and is used to define the columns that link the two tables." },
+                                { question: "A JOIN operation in a database is used for what?", options: ["Updating records", "Merging data from multiple tables", "Deleting tables", "Creating indexes"], correctAnswer: "Merging data from multiple tables", explanation: "JOINs are fundamental for retrieving and combining data that has been split into multiple tables." }
+                            ]
+                        }
+                    },
+                    {
+                        title: "2. Identifying the Left Table",
+                        content: `<p>The <strong>Left Table</strong> is specified in the <strong>FROM</strong> clause, appearing on the left side of the JOIN keyword.</p><pre class="bg-slate-800 text-white p-4 rounded-lg text-sm mt-4"><code>...FROM Employees -- Left Table\nJOIN Departments ON ...</code></pre>`,
+                        quiz: {
+                            bank: [
+                                { question: "In `FROM Orders JOIN Customers`, which is the left table?", options: ["Orders", "Customers", "Both", "Neither"], correctAnswer: "Orders", explanation: "The left table is the one that comes immediately after the FROM clause." },
+                                { question: "If a query reads `FROM Products JOIN Categories`, which table is considered the 'left' one?", options: ["Categories", "Products", "The one with more rows", "The one with fewer columns"], correctAnswer: "Products", explanation: "The table name immediately following 'FROM' is always the left table in a JOIN operation." }
+                            ]
+                        }
+                    },
+                    {
+                        title: "3. Identifying the Right Table",
+                        content: `<p>The <strong>Right Table</strong> is specified immediately after the <strong>JOIN</strong> keyword.</p><pre class="bg-slate-800 text-white p-4 rounded-lg text-sm mt-4"><code>...FROM Employees\nJOIN Departments -- Right Table\nON ...</code></pre>`,
+                        quiz: {
+                            bank: [
+                                { question: "In `FROM Products JOIN Categories`, which is the right table?", options: ["Products", "Categories", "Both", "Neither"], correctAnswer: "Categories", explanation: "The right table is the one that comes immediately after the JOIN keyword." },
+                                { question: "If a query reads `FROM Invoices JOIN Clients`, which table is the 'right' one?", options: ["Clients", "Invoices", "The one with the foreign key", "The one with the primary key"], correctAnswer: "Clients", explanation: "The table name immediately following the 'JOIN' keyword is always the right table." }
+                            ]
+                        }
+                    },
+                    {
+                        title: "4. Determining Column Order",
+                        content: `<p>The order of columns in the output is determined by the order you list them in the <strong>SELECT</strong> clause.</p><pre class="bg-slate-800 text-white p-4 rounded-lg text-sm mt-4"><code>SELECT Employees.Name, Departments.Name\nFROM ...</code></pre><p class="mt-2">This will show the employee's name first, then the department name.</p>`,
+                        quiz: {
+                            bank: [
+                                { question: "Which part of the SQL query determines the column order in the result?", options: ["FROM clause", "JOIN clause", "ON clause", "SELECT clause"], correctAnswer: "SELECT clause", explanation: "The SELECT clause dictates which columns are returned and in what order." },
+                                { question: "Given `SELECT o.OrderID, c.CustomerName FROM Customers c LEFT JOIN Orders o ON c.CustomerID = o.CustomerID;`, what is the column order?", options: ["CustomerName, OrderID", "OrderID, CustomerName", "The database decides", "It's alphabetical"], correctAnswer: "OrderID, CustomerName", explanation: "The column order in the result always matches the order listed in the SELECT statement." },
+                                { question: "To show a department name first, then the employee name, what would the SELECT clause look like?", options: ["SELECT Employees.Name, Departments.Name", "SELECT *", "SELECT Departments.Name, Employees.Name", "SELECT ... FROM Departments"], correctAnswer: "SELECT Departments.Name, Employees.Name", explanation: "You list the columns in the desired order in the SELECT clause." }
+                            ]
+                        }
+                    }
+                ]
+            },
+            'q2': {
+                title: "Quest 2: INNER vs. OUTER Joins",
+                description: "Discover the difference between INNER, LEFT, and RIGHT joins and learn when to use each one.",
+                 backgroundClass: 'bg-quest-2',
+                tutorial: [
+                    {
+                        title: "1. Defining OUTER JOINs",
+                        content: `<p>An <strong>OUTER JOIN</strong> includes all rows from <strong>at least one</strong> table, even if there are no matches in the other. The most common types are <strong>LEFT</strong>, <strong>RIGHT</strong>, and <strong>FULL OUTER JOINs</strong>.</p>
+                                 <p class="mt-2">This is different from an <strong>INNER JOIN</strong>, which only returns rows that have a match in <strong>both</strong> tables.</p>
+                                 <table class="result-table"><thead><tr><th>Type</th><th>Description</th></tr></thead><tbody>
+                                 <tr><td><strong>INNER JOIN</strong></td><td>Includes only matching rows from both tables.</td></tr>
+                                 <tr><td><strong>OUTER JOIN</strong></td><td>Includes all rows from at least one table, even if there are no matches in the other.</td></tr>
+                                 </tbody></table>`,
+                        quiz: {
+                            bank: [
+                                { question: "What is the key difference between an INNER and an OUTER JOIN?", options: ["INNER is faster", "OUTER returns non-matching rows from at least one table", "INNER returns more columns", "OUTER is only for numbers"], correctAnswer: "OUTER returns non-matching rows from at least one table", explanation: "The main distinction is that OUTER joins (like LEFT and RIGHT) can include rows that don't have a corresponding match in the other table, whereas INNER joins cannot." },
+                                { question: "If you want to find all customers, including those who have never placed an order, which type of join would you use?", options: ["INNER JOIN", "OUTER JOIN", "SELF JOIN", "CROSS JOIN"], correctAnswer: "OUTER JOIN", explanation: "An OUTER JOIN (specifically a LEFT JOIN from the Customers table) is perfect for this, as it ensures every customer is listed, regardless of their order history." }
+                            ]
+                        }
+                    },
+                    {
+                        title: "2. The INNER JOIN",
+                        content: `<p>An <strong>INNER JOIN</strong> returns only the rows where the join condition is met in <strong>both</strong> tables. It's the intersection of the two tables.</p>
+                                 <p class="mt-2">Consider a <strong>Customers</strong> table and an <strong>Orders</strong> table. Customer 'Diana' has no orders.</p>
+                                 <pre class="bg-slate-800 text-white p-4 rounded-lg text-sm mt-4"><code>SELECT c.CustomerName, o.OrderID\nFROM Customers c\nINNER JOIN Orders o ON c.CustomerID = o.CustomerID;</code></pre>
+                                 <p class="mt-4 font-semibold">Result:</p>
+                                 <table class="result-table"><thead><tr><th>CustomerName</th><th>OrderID</th></tr></thead><tbody>
+                                 <tr><td>Alice</td><td>101</td></tr>
+                                 <tr><td>Bob</td><td>102</td></tr>
+                                 <tr><td>Carol</td><td>103</td></tr>
+                                 </tbody></table>
+                                 <p class="mt-2">Notice 'Diana' is not in the result because she has no matching order.</p>`,
+                        quiz: {
+                            bank: [
+                                { question: "An INNER JOIN returns which records?", options: ["All records from the left table", "All records from the right table", "Only records with matching values in both tables", "All records from both tables"], correctAnswer: "Only records with matching values in both tables", explanation: "INNER JOIN exclusively selects rows where the join condition finds a match in both tables." },
+                                { question: "If a customer has not placed any orders, will they appear in an INNER JOIN with the Orders table?", options: ["Yes", "No"], correctAnswer: "No", explanation: "Because there is no match in the Orders table, the condition isn't met, and the customer's row is excluded by the INNER JOIN." }
+                            ]
+                        }
+                    },
+                    {
+                        title: "3. The LEFT JOIN",
+                        content: `<p>A <strong>LEFT JOIN</strong> returns <strong>all</strong> rows from the left table (Customers), and matched rows from the right table (Orders). If there is no match, the right side columns are NULL.</p>
+                                 <pre class="bg-slate-800 text-white p-4 rounded-lg text-sm mt-4"><code>SELECT c.CustomerName, o.OrderID\nFROM Customers c\nLEFT JOIN Orders o ON c.CustomerID = o.CustomerID;</code></pre>
+                                 <p class="mt-4 font-semibold">Result:</p>
+                                 <table class="result-table"><thead><tr><th>CustomerName</th><th>OrderID</th></tr></thead><tbody>
+                                 <tr><td>Alice</td><td>101</td></tr>
+                                 <tr><td>Bob</td><td>102</td></tr>
+                                 <tr><td>Carol</td><td>103</td></tr>
+                                 <tr><td>Diana</td><td class="null-val">NULL</td></tr>
+                                 </tbody></table>
+                                 <p class="mt-2">'Diana' is included, but her OrderID is NULL because she has no orders.</p>`,
+                        quiz: {
+                            bank: [
+                                { question: "A LEFT JOIN will always return all rows from which table?", options: ["The right table", "The left table", "The bigger table", "The table with the primary key"], correctAnswer: "The left table", explanation: "The core purpose of a LEFT JOIN is to preserve every record from the left table, supplementing it with data from the right table where possible." },
+                                { question: "If you LEFT JOIN Customers to Orders, and a customer has no orders, what will the order-related columns show?", options: ["0", "An empty string", "NULL", "The query will fail"], correctAnswer: "NULL", explanation: "When the LEFT JOIN cannot find a matching record in the right table (Orders), it fills the columns from that table with NULL values." }
+                            ]
+                        }
+                    },
+                    {
+                        title: "4. The RIGHT JOIN",
+                        content: `<p>A <strong>RIGHT JOIN</strong> returns <strong>all</strong> rows from the right table (Orders), and matched rows from the left table (Customers). If there is no match, the left side columns are NULL.</p>
+                                 <p class="mt-2">Imagine an Order #104 exists for a customer who was deleted.</p>
+                                 <pre class="bg-slate-800 text-white p-4 rounded-lg text-sm mt-4"><code>SELECT c.CustomerName, o.OrderID\nFROM Customers c\nRIGHT JOIN Orders o ON c.CustomerID = o.CustomerID;</code></pre>
+                                 <p class="mt-4 font-semibold">Result:</p>
+                                 <table class="result-table"><thead><tr><th>CustomerName</th><th>OrderID</th></tr></thead><tbody>
+                                 <tr><td>Alice</td><td>101</td></tr>
+                                 <tr><td>Bob</td><td>102</td></tr>
+                                 <tr><td>Carol</td><td>103</td></tr>
+                                 <tr><td class="null-val">NULL</td><td>104</td></tr>
+                                 </tbody></table>
+                                 <p class="mt-2">Order #104 is included, but its CustomerName is NULL because the customer doesn't exist.</p>`,
+                        quiz: {
+                            bank: [
+                                { question: "A RIGHT JOIN prioritizes all rows from which table?", options: ["The left table", "The right table", "The first table listed", "The table with more columns"], correctAnswer: "The right table", explanation: "A RIGHT JOIN is the mirror image of a LEFT JOIN, ensuring all records from the right-side table are included in the result set." },
+                                { question: "If an order exists for a customer not in the Customers table, a RIGHT JOIN from Customers to Orders will...", options: ["Exclude the order", "Show the order with a NULL customer name", "Cause an error", "Only show the OrderID"], correctAnswer: "Show the order with a NULL customer name", explanation: "The RIGHT JOIN ensures all orders are shown, even if there's no matching customer." }
+                            ]
+                        }
+                    },
+                    {
+                        title: "5. Emulating FULL OUTER JOIN",
+                        content: `<p>MySQL does not have a <strong>FULL OUTER JOIN</strong>. To get all rows from both tables, you combine a LEFT and RIGHT JOIN with <strong>UNION</strong>.</p>
+                                 <pre class="bg-slate-800 text-white p-4 rounded-lg text-sm mt-4"><code>SELECT c.CustomerName, o.OrderID\nFROM Customers c\nLEFT JOIN Orders o ON c.CustomerID = o.CustomerID\nUNION\nSELECT c.CustomerName, o.OrderID\nFROM Customers c\nRIGHT JOIN Orders o ON c.CustomerID = o.CustomerID;</code></pre>
+                                 <p class="mt-4 font-semibold">Result:</p>
+                                 <table class="result-table"><thead><tr><th>CustomerName</th><th>OrderID</th></tr></thead><tbody>
+                                 <tr><td>Alice</td><td>101</td></tr>
+                                 <tr><td>Bob</td><td>102</td></tr>
+                                 <tr><td>Carol</td><td>103</td></tr>
+                                 <tr><td>Diana</td><td class="null-val">NULL</td></tr>
+                                 <tr><td class="null-val">NULL</td><td>104</td></tr>
+                                 </tbody></table>
+                                 <p class="mt-2">This result includes the customer with no orders and the order with no customer.</p>`,
+                        quiz: {
+                            bank: [
+                                { question: "How can you simulate a FULL OUTER JOIN in MySQL?", options: ["Using a special FULL JOIN keyword", "It's not possible", "By combining LEFT and RIGHT joins with UNION", "By using an INNER JOIN twice"], correctAnswer: "By combining LEFT and RIGHT joins with UNION", explanation: "Since MySQL lacks a native FULL OUTER JOIN, the standard practice is to merge the results of a LEFT JOIN and a RIGHT JOIN using the UNION operator." },
+                                { question: "What does UNION do in a query?", options: ["Combines columns from two queries", "Combines rows from two queries and removes duplicates", "Finds the average of two queries", "It is not a valid SQL keyword"], correctAnswer: "Combines rows from two queries and removes duplicates", explanation: "UNION is used to stack the results of two SELECT statements on top of each other into a single result set." }
+                            ]
+                        }
+                    }
+                ]
+            },
+            'rb1': {
+                title: "Mid Challenge: Practical Challenge",
+                description: "Apply your knowledge of JOINs in a hands-on challenge.",
+                type: 'challenge',
+                backgroundClass: 'bg-mid-challenge',
+                challenge: {
+                    entryCost: 1, // lives
+                    stars: 3,
+                    questions: [
+                        { // Q1
+                            task: "Which columns should be used for the ON condition between Employee and Parking? Check the boxes for the correct columns below.",
+                            type: 'highlight-columns',
+                            correctAnswer: ['cb-e-ID', 'cb-p-EmployeeID'],
+                            feedback: {
+                                wrongPair: "Remember: the ON condition links a primary key to a foreign key, not two unrelated IDs. Try again."
+                            },
+                            hint: "The linking columns should share the same kind of information. One is usually a primary key, and the other is a foreign key that refers to it."
+                        },
+                        { // Q2
+                            task: "Click on all employees who have a parking spot assigned.",
+                            type: 'highlight-rows',
+                            table: 'employee',
+                            correctAnswer: ['e-row-0', 'e-row-2', 'e-row-3'],
+                            feedback: {
+                                missing: "You are missing some employees who also have parking.",
+                                extra: "Some of your selections don’t have parking. Think carefully."
+                            },
+                            hint: "Look at the Parking table. Which EmployeeIDs are present?"
+                        },
+                        { // Q3
+                            task: "Which type of join produces the same result as your selection in Question 2 (employees with parking)?",
+                            type: 'multiple-choice',
+                            options: ['INNER JOIN', 'LEFT JOIN', 'RIGHT JOIN', 'FULL OUTER JOIN'],
+                            correctAnswer: 'INNER JOIN',
+                            feedback: {
+                                'LEFT JOIN': "A LEFT JOIN would include all employees, even those without parking. That's not what we want here.",
+                                'RIGHT JOIN': "A RIGHT JOIN would include all parking spots, even unassigned ones. That's not the goal.",
+                                'FULL OUTER JOIN': "A FULL OUTER JOIN would include both employees without parking and unassigned parking spots."
+                            },
+                            hint: "Which join type only returns results where there is a match in BOTH tables?"
+                        },
+                        { // Q4
+                            task: "Given the query below, click on the rows from the Parking table that will NOT appear in the results.",
+                            type: 'highlight-rows-inverse',
+                            sql: "SELECT Employee.Name, Parking.SpotNumber FROM Parking RIGHT JOIN Employee ON Parking.EmployeeID = Employee.ID;",
+                            correctAnswer: ['p-row-1', 'p-row-4'], // Unassigned parking spots
+                            feedback: {
+                                default: "A RIGHT JOIN keeps all rows from the right table (Employee). Which rows from the left table (Parking) have no match?"
+                            },
+                            hint: "The RIGHT JOIN will show every employee. Will it show every parking spot, even unassigned ones?"
+                        },
+                        { // Q5
+                            task: "Which SQL statement produces the result table shown below?",
+                            type: 'multiple-choice',
+                            resultTable: `<thead><tr><th>Name</th><th>SpotNumber</th></tr></thead>
+                                         <tbody>
+                                           <tr><td>Alice</td><td>A1</td></tr>
+                                           <tr><td>Bob</td><td class="null-val">NULL</td></tr>
+                                           <tr><td>Carol</td><td>B2</td></tr>
+                                           <tr><td>David</td><td>C3</td></tr>
+                                           <tr><td>Eve</td><td class="null-val">NULL</td></tr>
+                                         </tbody>`,
+                            options: [
+                                'SELECT Employee.Name, Parking.SpotNumber FROM Employee INNER JOIN Parking ON Employee.ID = Parking.EmployeeID;',
+                                'SELECT Employee.Name, Parking.SpotNumber FROM Employee LEFT JOIN Parking ON Employee.ID = Parking.EmployeeID;',
+                                'SELECT Employee.Name, Parking.SpotNumber FROM Employee RIGHT JOIN Parking ON Employee.ID = Parking.EmployeeID;',
+                                'SELECT Employee.Name, Parking.SpotNumber FROM Parking LEFT JOIN Employee ON Employee.ID = Parking.EmployeeID;'
+                            ],
+                            correctAnswer: 'SELECT Employee.Name, Parking.SpotNumber FROM Employee LEFT JOIN Parking ON Employee.ID = Parking.EmployeeID;',
+                            feedback: {
+                                default: "That's not the right query. Think about which table is providing ALL of its rows."
+                            },
+                            hint: "This result shows all employees, even those without parking. Which join does that?"
+                        }
+                    ]
+                }
+            },
+            'q3': {
+                title: "Quest 3: Diving into the Code",
+                description: "Learn to use aliases and understand the relationship between LEFT and RIGHT JOINs.",
+                 backgroundClass: 'bg-quest-3',
+                tutorial: [
+                    {
+                        title: "1. Using Aliases to Simplify Joins",
+                        content: `<p>When table names are long or you join a table to itself, queries can become hard to read. You can assign a short nickname, or <strong>alias</strong>, to a table.</p>
+                                 <pre class="bg-slate-800 text-white p-4 rounded-lg text-sm mt-4"><code>-- Without Aliases\nSELECT Employees.Name, Departments.Name\nFROM Employees\nINNER JOIN Departments ON Employees.DepartmentID = Departments.ID;\n\n-- With Aliases (e for Employees, d for Departments)\nSELECT <span style="color: #6ee7b7;">e</span>.Name, <span style="color: #fca5a5;">d</span>.Name\nFROM Employees AS <span style="color: #6ee7b7;">e</span>\nINNER JOIN Departments AS <span style="color: #fca5a5;">d</span> ON <span style="color: #6ee7b7;">e</span>.DepartmentID = <span style="color: #fca5a5;">d</span>.ID;</code></pre>
+                                 <p class="mt-2">The <strong>AS</strong> keyword is optional. <code>FROM Employees e</code> works the same way. This makes your code cleaner and easier to write!</p>`,
+                        quiz: {
+                            bank: [
+                                { question: "What is the primary benefit of using table aliases?", options: ["It makes the query run faster", "It permanently renames the table", "It improves the readability and simplifies queries", "It is required for all JOINs"], correctAnswer: "It improves the readability and simplifies queries", explanation: "Aliases act as temporary nicknames, making complex queries with long table names much easier to read and write." },
+                                { question: "In the query `FROM Customers c`, what is `c`?", options: ["A column name", "A database name", "An alias for the Customers table", "A syntax error"], correctAnswer: "An alias for the Customers table", explanation: "You can assign an alias by simply putting the desired alias name after the table name." }
+                            ]
+                        }
+                    },
+                    {
+                        title: "2. Left vs. Right Join: Two Sides of the Same Coin",
+                        content: `<p>A <strong>LEFT JOIN</strong> from Table A to Table B can always be rewritten as a <strong>RIGHT JOIN</strong> from Table B to Table A. The key is which table you want to keep all the rows from.</p>
+                                 <p class="mt-2"><strong>Goal:</strong> Get a list of all customers and any orders they may have.</p>
+                                 <pre class="bg-slate-800 text-white p-4 rounded-lg text-sm mt-4"><code>-- Using LEFT JOIN (keeps all rows from the left table: Customers)\nSELECT c.Name, o.OrderID\nFROM <span style="color: #6ee7b7;">Customers c</span>\nLEFT JOIN <span style="color: #fca5a5;">Orders o</span> ON c.ID = o.CustomerID;\n\n-- Using RIGHT JOIN (keeps all rows from the right table: Customers)\nSELECT c.Name, o.OrderID\nFROM <span style="color: #fca5a5;">Orders o</span>\nRIGHT JOIN <span style="color: #6ee7b7;">Customers c</span> ON o.CustomerID = c.ID;</code></pre>
+                                 <p class="mt-4">Both queries produce the exact same result! You decide which one to use based on which makes your query more logical and readable.</p>`,
+                        quiz: {
+                            bank: [
+                                { question: "`FROM A LEFT JOIN B` is equivalent to:", options: ["`FROM A RIGHT JOIN B`", "`FROM B LEFT JOIN A`", "`FROM B RIGHT JOIN A`", "`FROM A INNER JOIN B`"], correctAnswer: "`FROM B RIGHT JOIN A`", explanation: "Switching the tables and changing the join from LEFT to RIGHT (or vice-versa) produces the identical result because the table from which you keep all rows remains the same." },
+                                { question: "If you want to ensure all records from the `Products` table are in your result, which of these queries would work?", options: ["`FROM Products p RIGHT JOIN Sales s ...`", "`FROM Sales s LEFT JOIN Products p ...`", "`FROM Products p LEFT JOIN Sales s ...`", "All of the above"], correctAnswer: "`FROM Products p LEFT JOIN Sales s ...`", explanation: "To keep all rows from `Products`, it must be the 'left' table in a `LEFT JOIN` or the 'right' table in a `RIGHT JOIN`." }
+                            ]
+                        }
+                    }
+                ]
+            },
+            'q4': {
+                title: "Quest 4: More JOIN Types",
+                description: "Explore other types of joins like SELF, CROSS, NATURAL, and NON-EQUI joins.",
+                 backgroundClass: 'bg-quest-4',
+                tutorial: [
+                     {
+                        title: "1. The SELF JOIN: Looking in the Mirror 🪞",
+                        content: `<p>A self join is like looking in a mirror! You're using the same table twice, but you give each one a different name (aliases) so the computer doesn't get confused. This is useful for querying hierarchical data, like employees and their managers, from the same table.</p>
+                                 <p class="mt-2">Consider this \`Employees\` table:</p>
+                                 <table class="result-table"><thead><tr><th>ID</th><th>Name</th><th>ManagerID</th></tr></thead><tbody>
+                                 <tr><td>1</td><td>Alice</td><td>3</td></tr>
+                                 <tr><td>2</td><td>Bob</td><td>3</td></tr>
+                                 <tr><td>3</td><td>Carol</td><td class="null-val">NULL</td></tr>
+                                 </tbody></table>
+                                 <p class="mt-4">To find each employee's manager, we join the table to itself:</p>
+                                 <pre class="bg-slate-800 text-white p-4 rounded-lg text-sm mt-4"><code>SELECT <span style="color: #6ee7b7;">e</span>.Name AS Employee, <span style="color: #fca5a5;">m</span>.Name AS Manager\nFROM Employees AS <span style="color: #6ee7b7;">e</span>\nINNER JOIN Employees AS <span style="color: #fca5a5;">m</span> ON <span style="color: #6ee7b7;">e</span>.ManagerID = <span style="color: #fca5a5;">m</span>.ID;</code></pre>
+                                 <p class="mt-2">Here, '<span style="color: #6ee7b7;">e</span>' represents the employee, and '<span style="color: #fca5a5;">m</span>' represents the manager. The result would show Alice's manager is Carol, and Bob's manager is Carol. A self-join can be an an INNER JOIN (only matching rows) or an OUTER JOIN (including non-matching rows).</p>`,
+                        quiz: { bank: [{ question: "Why are aliases absolutely necessary in a SELF JOIN?", options: ["To make it faster", "To prevent ambiguity, as you are referencing the same table twice", "To filter the results", "They are not necessary"], correctAnswer: "To prevent ambiguity, as you are referencing the same table twice", explanation: "Without aliases, the database wouldn't know which instance of the table you're referring to for each column." }, { question: "Which scenario is a perfect use case for a SELF JOIN?", options: ["Linking `Customers` to `Orders`", "Finding an employee's manager from within the `Employees` table", "Combining `Products` and `Categories`", "Listing all possible T-shirt and color combinations"], correctAnswer: "Finding an employee's manager from within the `Employees` table", explanation: "A SELF JOIN excels at navigating relationships contained within a single table." }] }
+                    },
+                    {
+                        title: "2. The CROSS JOIN: Every Combination",
+                        content: `<p>A <strong>CROSS JOIN</strong> creates a Cartesian product, matching every row from the first table with every row from the second table. It doesn't use an <strong>ON</strong> clause.</p>
+                                 <p class="mt-2"><strong>Warning:</strong> Be very careful! If you have <strong>n</strong> rows in table 1 and <strong>m</strong> rows in Table 2, the result of the cross join will have <strong>n * m</strong> rows. For example, a table with 1,000 rows crossed with another 1,000-row table produces 1,000,000 rows! This can be very slow and resource-intensive.</p>
+                                 <pre class="bg-slate-800 text-white p-4 rounded-lg text-sm mt-4"><code>SELECT T.Size, C.Color\nFROM TShirts AS T\nCROSS JOIN Colors AS C;</code></pre>
+                                 <p class="mt-4">If TShirts has (S, M, L) and Colors has (Red, Blue), the result will be 6 rows: (S, Red), (S, Blue), (M, Red), (M, Blue), (L, Red), (L, Blue).</p>`,
+                        quiz: { bank: [{ question: "If you CROSS JOIN a table with 3 rows and a table with 4 rows, how many rows will the result have?", options: ["3", "4", "7", "12"], correctAnswer: "12", explanation: "A CROSS JOIN results in the product of the row counts (3 * 4 = 12)." }, { question: "Which keyword is NOT used in a CROSS JOIN?", options: ["SELECT", "FROM", "ON", "CROSS JOIN"], correctAnswer: "ON", explanation: "A CROSS JOIN intentionally connects every row to every other row, so a specific linking condition with ON is not needed." }] }
+                    },
+                    {
+                        title: "3. EQUI vs. NON-EQUI Joins",
+                        content: `<p>The joins we've seen so far are mostly <strong>EQUI JOINS</strong> because they use an equality operator (<code>=</code>) in the <code>ON</code> clause.</p>
+                                 <p class="mt-2">A <strong>NON-EQUI JOIN</strong> uses other operators, like <code>&lt;</code>, <code>&gt;</code>, or <code>BETWEEN</code>. This is useful for matching ranges of data.</p>
+                                 <p class="mt-4"><strong>Scenario:</strong> Assign a bonus level based on salary.</p>
+                                 <pre class="bg-slate-800 text-white p-4 rounded-lg text-sm mt-4"><code>SELECT e.Name, b.BonusLevel\nFROM Employees e\nJOIN BonusLevels b ON e.Salary BETWEEN b.MinSalary AND b.MaxSalary;</code></pre>
+                                 <p class="mt-2">This is a NON-EQUI JOIN because it uses <code>BETWEEN</code> instead of <code>=</code>. Just like other joins, EQUI and NON-EQUI joins can be INNER or OUTER.</p>`,
+                        quiz: { bank: [{ question: "A query that joins tables with `ON tableA.col > tableB.col` is what type of join?", options: ["EQUI JOIN", "NON-EQUI JOIN", "SELF JOIN", "CROSS JOIN"], correctAnswer: "NON-EQUI JOIN", explanation: "Any join condition that does not use the equals (`=`) operator is considered a NON-EQUI JOIN." }, { question: "Which operator would result in an EQUI JOIN?", options: ["=", ">", "<>", "BETWEEN"], correctAnswer: "=", explanation: "The equals operator is the defining characteristic of an EQUI JOIN." }] }
+                    },
+                    {
+                        title: "4. The NATURAL JOIN: A Risky Shortcut",
+                        content: `<p>A <strong>NATURAL JOIN</strong> is a special type of join that doesn't require an <code>ON</code> clause. It automatically joins on all columns that have the same name in both tables.</p>
+                                 <pre class="bg-slate-800 text-white p-4 rounded-lg text-sm mt-4"><code>-- If both tables have a 'DepartmentID' column:\nSELECT e.Name, d.DepartmentName\nFROM Employees e\nNATURAL JOIN Departments d;</code></pre>
+                                 <p class="mt-4"><strong>Warning:</strong> This is convenient but can be dangerous! If both tables also happened to have a \`LastUpdated\` column, the \`NATURAL JOIN\` would try to match on BOTH \`DepartmentID\` and \`LastUpdated\`, leading to incorrect results. It is almost always safer to use a standard <code>JOIN ... ON</code> clause.</p>`,
+                        quiz: { bank: [{ question: "What does a NATURAL JOIN use to link tables?", options: ["The primary key of the left table", "All columns with the same name in both tables", "The first column of each table", "You have to specify it in a WHERE clause"], correctAnswer: "All columns with the same name in both tables", explanation: "A NATURAL JOIN implicitly finds all identically named columns and uses them for the join condition." }, { question: "Why is `NATURAL JOIN` often discouraged in professional code?", options: ["It is slower than other joins", "It can lead to unexpected results if table schemas change", "It cannot be used with aliases", "It only works on numbers"], correctAnswer: "It can lead to unexpected results if table schemas change", explanation: "Its implicit nature makes it fragile. An unrelated column added later with a matching name could break the query logic." }] }
+                    },
+                    {
+                        title: "5. The IMPLICIT JOIN: An Old Habit",
+                        content: `<p>Before the modern <code>JOIN</code> syntax was standard, joins were written implicitly by listing tables in the <code>FROM</code> clause and specifying the link in the <code>WHERE</code> clause.</p>
+                                 <pre class="bg-slate-800 text-white p-4 rounded-lg text-sm mt-4"><code>-- Modern, explicit INNER JOIN (Recommended)\nSELECT e.Name, d.Name\nFROM Employees e\nINNER JOIN Departments d ON e.DepartmentID = d.ID;\n\n-- Old, implicit join syntax (Discouraged)\nSELECT e.Name, d.Name\nFROM Employees e, Departments d\nWHERE e.DepartmentID = d.ID;</code></pre>
+                                 <p class="mt-4">If you forget the <code>WHERE</code> clause in an implicit join (<code>FROM Employees, Departments</code>), you create an accidental <strong>CROSS JOIN</strong>! This is a major reason why the explicit <code>JOIN...ON</code> syntax is preferred, as it separates the joining logic from the filtering logic.</p>`,
+                        quiz: { bank: [{ question: "What is the biggest risk of using the implicit, comma-based join syntax?", options: ["It is not supported by all databases", "It is harder to read", "Forgetting the WHERE clause results in an unintended CROSS JOIN", "It only works as a LEFT JOIN"], correctAnswer: "Forgetting the WHERE clause results in an unintended CROSS JOIN", explanation: "This is a very common and potentially performance-killing bug, which the modern explicit syntax helps to prevent." }, { question: "In modern SQL, what is the preferred way to write a join?", options: ["With a comma in the FROM clause", "Using the explicit JOIN keyword and an ON clause", "Using a NATURAL JOIN", "Using a subquery"], correctAnswer: "Using the explicit JOIN keyword and an ON clause", explanation: "Explicit joins are clearer, safer, and less prone to errors." }] }
+                    }
+                ]
+            },
+            'rb2': {
+                title: "RB2: The Final Challenge",
+                description: "Test your knowledge in this final, adaptive challenge!",
+                type: 'adaptive-challenge',
+                backgroundClass: 'bg-final-challenge',
+                challenge: {
+                    entryCost: 1,
+                    stars: 3,
+                    totalQuestions: 10,
+                    secretCode: "UNION",
+                    bank: {
+                        easy: [
+                            { question: "Scenario: You have a `Books` table and an `Authors` table. You write the query: `FROM Books JOIN Authors ON ...`. Which is considered the 'right' table in this join?", options: ["`Books`", "`Authors`", "Both are right tables", "Whichever table has more rows"], answer: "`Authors`", explanation: "The 'right' table is the one that comes immediately after the JOIN keyword." },
+                            { question: "Scenario: In the query `FROM Orders JOIN Customers ON ...`, which table is the 'left' table?", options: ["`Customers`", "The table with the primary key", "`Orders`", "The table with more columns"], answer: "`Orders`", explanation: "The 'left' table is the one that comes immediately after the FROM keyword." },
+                            { question: "Scenario: To link a `Products` table with a `Categories` table, which keyword is used to specify the joining columns?", options: ["`WHERE`", "`LINK`", "`ON`", "`JOINBY`"], answer: "`ON`", explanation: "The `ON` clause is used to define the condition that links the two tables in a join." },
+                            { question: "Scenario: Which type of join returns only the rows that have matching values in both tables?", options: ["`LEFT JOIN`", "`INNER JOIN`", "`FULL OUTER JOIN`", "`CROSS JOIN`"], answer: "`INNER JOIN`", explanation: "`INNER JOIN` is used to find the intersection of two tables, where rows must have a match in both." },
+                            { question: "Scenario: A `LEFT JOIN` will always return all rows from which table?", options: ["The right table", "The left table", "The larger table", "The table with the foreign key"], answer: "The left table", explanation: "The purpose of a `LEFT JOIN` is to preserve every row from the table on the left side of the join." },
+                            { question: "Scenario: You write the query `SELECT e.Name FROM Employees e`. What is the purpose of the `e`?", options: ["It's a required keyword.", "It's an alias for the `Employees` table.", "It's the name of a column.", "It's a syntax error."], answer: "It's an alias for the `Employees` table.", explanation: "An alias provides a temporary, shorter name for a table to improve query readability." },
+                            { question: "Scenario: Which clause is used to filter the final result set of a join based on a condition?", options: ["`ON`", "`GROUP BY`", "`FILTER`", "`WHERE`"], answer: "`WHERE`", explanation: "The `WHERE` clause is applied after the join is complete to filter the combined rows." },
+                            { question: "Scenario: What type of join connects a table to itself?", options: ["`AUTO JOIN`", "`SELF JOIN`", "`MIRROR JOIN`", "`RECURSIVE JOIN`"], answer: "`SELF JOIN`", explanation: "A `SELF JOIN` is used to query hierarchical data within the same table, like employees and managers." },
+                            { question: "Scenario: What is the result of a `CROSS JOIN` between a table with 5 rows and a table with 10 rows?", options: ["15 rows", "10 rows", "50 rows", "5 rows"], answer: "50 rows", explanation: "A `CROSS JOIN` creates a Cartesian product, resulting in rows equal to (rows in table 1) * (rows in table 2)." },
+                            { question: "Scenario: A join that uses the `=` operator in its `ON` clause is known as what?", options: ["`EQUI JOIN`", "`NATURAL JOIN`", "`NON-EQUI JOIN`", "`PRIMARY JOIN`"], answer: "`EQUI JOIN`", explanation: "An `EQUI JOIN` is any join that uses an equality operator to link the tables." },
+                            { question: "Scenario: What is the most basic purpose of any `JOIN` clause in SQL?", options: ["To filter rows from a single table.", "To combine rows from two or more tables based on a related column.", "To create a new table in the database.", "To sort the results of a query."], answer: "To combine rows from two or more tables based on a related column.", explanation: "The fundamental role of a join is to merge data from different tables." },
+                            { question: "Scenario: If a row in the 'right' table of a `RIGHT JOIN` does not have a match in the 'left' table, what happens to it?", options: ["It is excluded from the results.", "The query returns an error.", "It is included, and the columns from the left table are filled with `NULL`.", "It is included, and the columns from the left table are filled with zeroes."], answer: "It is included, and the columns from the left table are filled with `NULL`.", explanation: "`RIGHT JOIN` ensures all rows from the right table are kept; `NULL` is used as a placeholder for missing data from the left." },
+                            { question: "Scenario: Is using an alias for a table name required when performing a join?", options: ["Yes, always.", "Only for `INNER JOIN`s.", "No, it is optional but highly recommended for clarity.", "Only when joining more than two tables."], answer: "No, it is optional but highly recommended for clarity.", explanation: "Aliases are optional for most joins but are essential for `SELF JOIN`s and improve readability in all complex queries." },
+                            { question: "Scenario: What is a key difference between a `NATURAL JOIN` and an `INNER JOIN ... ON`?", options: ["`NATURAL JOIN` is faster.", "`NATURAL JOIN` does not require you to specify the joining columns; it does it automatically.", "`NATURAL JOIN` returns more rows.", "`INNER JOIN` cannot use aliases."], answer: "`NATURAL JOIN` does not require you to specify the joining columns; it does it automatically.", explanation: "`NATURAL JOIN` implicitly joins on all columns with the same name, which can be risky." },
+                            { question: "Scenario: The syntax `FROM tableA, tableB` is an example of what kind of join?", options: ["An explicit join.", "A `UNION` join.", "An implicit join.", "A `SELF JOIN`."], answer: "An implicit join.", explanation: "This is the older, comma-based syntax for joining tables, where the condition is specified in the `WHERE` clause." },
+                        ],
+                        medium: [
+                            { question: "Scenario: You want to display a list of courses followed by the name of the professor who teaches them. Which `SELECT` statement is correct?", options: ["`SELECT P.ProfName, C.CourseName`", "`SELECT C.CourseName, P.ProfName`", "`SELECT *`", "`SELECT P.ProfName || C.CourseName`"], answer: "`SELECT C.CourseName, P.ProfName`", explanation: "The order of columns in the `SELECT` list determines their order in the final output." },
+                            { question: "Scenario: You need a list of only the authors who have published at least one book. You have an `Authors` table and a `Books` table. Which join is most appropriate?", options: ["`INNER JOIN`", "`LEFT JOIN` from `Authors` to `Books`", "`RIGHT JOIN` from `Authors` to `Books`", "`FULL OUTER JOIN`"], answer: "`INNER JOIN`", explanation: "`INNER JOIN` is the best choice for finding the intersection—authors who have a match in the `Books` table." },
+                            { question: "Scenario: You want a report of all scheduled classes and the rooms they are in. If a class has not yet been assigned a room, it should still appear in the report.", options: ["`INNER JOIN`", "`LEFT JOIN` from `Classes` to `Rooms`", "`RIGHT JOIN` from `Classes` to `Rooms`", "`CROSS JOIN`"], answer: "`LEFT JOIN` from `Classes` to `Rooms`", explanation: "A `LEFT JOIN` from `Classes` ensures all classes are listed, regardless of whether they have a matching room." },
+                            { question: "Scenario: A query `FROM Customers c LEFT JOIN Orders o ON c.ID = o.CustomerID` is executed. What will the `OrderID` be for a customer who has never placed an order?", options: ["0", "An empty string", "The query will error", "`NULL`"], answer: "`NULL`", explanation: "When a `LEFT JOIN` finds no match in the right table, it fills the columns from that table with `NULL`." },
+                            { question: "Scenario: You run a query to see which musical artists have albums in your library. If an artist in your `Artists` table has no albums listed in the `Albums` table, they do not appear. What join was used?", options: ["`LEFT JOIN`", "`FULL OUTER JOIN`", "`INNER JOIN`", "`RIGHT JOIN`"], answer: "`INNER JOIN`", explanation: "Since artists without albums are excluded, it must be an `INNER JOIN`, which only returns rows with matches in both tables." },
+                            { question: "Scenario: You are joining `employees` and `departments`. Both tables have a `name` column. How would you select the employee's name?", options: ["`SELECT name`", "`SELECT employees.name`", "`SELECT \"name\"`", "`SELECT ALL name`"], answer: "`SELECT employees.name`", explanation: "When a column name is ambiguous (exists in both tables), you must qualify it with the table name or alias." },
+                            { question: "Scenario: Which query correctly shows all employees from the `Employees` table, using a `RIGHT JOIN`?", options: ["`FROM Employees e RIGHT JOIN Departments d ON e.DeptID = d.ID`", "`FROM Departments d RIGHT JOIN Employees e ON d.ID = e.DeptID`", "`FROM Employees e LEFT JOIN Departments d ON e.DeptID = d.ID`", "It's impossible with a `RIGHT JOIN`."], answer: "`FROM Departments d RIGHT JOIN Employees e ON d.ID = e.DeptID`", explanation: "To keep all rows from `Employees`, it must be the 'right' table in a `RIGHT JOIN`." },
+                            { question: "Scenario: The query `FROM Products p LEFT JOIN Categories c ON p.CatID = c.ID` is functionally identical to which of the following?", options: ["`FROM Products p RIGHT JOIN Categories c ON p.CatID = c.ID`", "`FROM Categories c RIGHT JOIN Products p ON c.ID = p.CatID`", "`FROM Categories c LEFT JOIN Products p ON c.ID = p.CatID`", "`FROM Products p INNER JOIN Categories c ON p.CatID = c.ID`"], answer: "`FROM Categories c RIGHT JOIN Products p ON c.ID = p.CatID`", explanation: "Switching the table order and changing `LEFT` to `RIGHT` join maintains the same logic: keeping all rows from `Products`." },
+                            { question: "Scenario: You have a `TShirts` table (S, M, L) and a `Colors` table (Red, Blue). You need to see all 6 possible combinations (`S-Red`, `S-Blue`, etc.). Which join should you use?", options: ["`INNER JOIN`", "`NATURAL JOIN`", "`CROSS JOIN`", "`SELF JOIN`"], answer: "`CROSS JOIN`", explanation: "`CROSS JOIN` is specifically designed to create a Cartesian product of all possible combinations." },
+                            { question: "Scenario: You use a `NATURAL JOIN` between `Students` and `Enrollments`. What is a potential risk of this approach?", options: ["It is much slower than a regular join.", "It will fail if there are no matching columns.", "It might join on an unintended column if both tables happen to have another column with the same name (e.g., `LastUpdate`).", "It cannot be used with a `WHERE` clause."], answer: "It might join on an unintended column if both tables happen to have another column with the same name (e.g., `LastUpdate`).", explanation: "The implicit nature of `NATURAL JOIN` makes it fragile; a schema change can break the query's logic unexpectedly." },
+                            { question: "Scenario: Which of the following queries contains a syntax error?", options: ["`SELECT * FROM T1 LEFT JOIN T2 ON T1.id = T2.id;`", "`SELECT * FROM T1 INNER JOIN T2 ON T1.id = T2.id;`", "`SELECT * FROM T1 RIGHT JOIN T2 WHERE T1.id = T2.id;`", "`SELECT * FROM T1, T2 WHERE T1.id = T2.id;`"], answer: "`SELECT * FROM T1 RIGHT JOIN T2 WHERE T1.id = T2.id;`", explanation: "The `JOIN` condition for explicit joins must be in an `ON` clause, not a `WHERE` clause." },
+                            { question: "Scenario: You want to list all employees and the city they work in. Which query correctly joins `Employees e` and `Locations l`?", options: ["`FROM Employees e JOIN Locations l WHERE e.LocationID = l.ID`", "`FROM Employees e JOIN Locations l ON e.LocationID = l.ID`", "`FROM Employees e ON Locations l JOIN e.LocationID = l.ID`", "`FROM Employees e, Locations l ON e.LocationID = l.ID`"], answer: "`FROM Employees e JOIN Locations l ON e.LocationID = l.ID`", explanation: "The correct syntax is `... JOIN table ON condition`." },
+                        ],
+                        hard: [
+                            { question: "Scenario: You need a list of all products, and for products that have been sold, the name of the customer who bought them. Some products may have never been sold.", options: ["`FROM Products p INNER JOIN Sales s INNER JOIN Customers c ...`", "`FROM Products p LEFT JOIN Sales s ON p.ID = s.ProductID LEFT JOIN Customers c ON s.CustomerID = c.ID`", "`FROM Products p RIGHT JOIN Sales s ON p.ID = s.ProductID LEFT JOIN Customers c ON s.CustomerID = c.ID`", "`FROM Customers c RIGHT JOIN Sales s ON c.ID = s.CustomerID RIGHT JOIN Products p ON s.ProductID = p.ID`"], answer: "`FROM Products p LEFT JOIN Sales s ON p.ID = s.ProductID LEFT JOIN Customers c ON s.CustomerID = c.ID`", explanation: "You must `LEFT JOIN` from `Products` to `Sales` to ensure all products are included, and then join to `Customers` to get the buyer's name." },
+                            { question: "Scenario: You have a `Projects` table and an `Employees` table. You need a list of all projects that currently have no employee assigned to them.", options: ["`FROM Projects p INNER JOIN Employees e ON p.AssignedEmployeeID = e.ID`", "`FROM Projects p CROSS JOIN Employees e`", "`FROM Employees e RIGHT JOIN Projects p ON e.ID = p.AssignedEmployeeID WHERE e.ID IS NULL`", "`FROM Projects p LEFT JOIN Employees e ON p.AssignedEmployeeID = e.ID WHERE e.ID IS NULL`"], answer: "`FROM Projects p LEFT JOIN Employees e ON p.AssignedEmployeeID = e.ID WHERE e.ID IS NULL`", explanation: "A `LEFT JOIN` from `Projects` will list all projects. The `WHERE e.ID IS NULL` condition then filters this list down to only those projects where no matching employee was found." },
+                            { question: "Scenario: You are given an `Events` table with `EventName` and `EventDate`. You need to find pairs of events that occurred on the same date.", options: ["A `CROSS JOIN` on the `Events` table.", "A `SELF JOIN` with the condition `ON e1.EventDate = e2.EventDate AND e1.EventName != e2.EventName`.", "A `NATURAL JOIN` on the `Events` table.", "An `INNER JOIN` with a `Dates` table."], answer: "A `SELF JOIN` with the condition `ON e1.EventDate = e2.EventDate AND e1.EventName != e2.EventName`.", explanation: "A `SELF JOIN` is required to compare rows within the same table. The conditions match by date but exclude a row matching with itself." },
+                            { question: "Scenario: You have a `Salaries` table and a `BonusRanges` table. You want to match each salary to its corresponding bonus percentage based on a range (`Salary BETWEEN MinPay AND MaxPay`). What kind of join condition is this?", options: ["`EQUI JOIN`", "`SELF JOIN`", "`NATURAL JOIN`", "`NON-EQUI JOIN`"], answer: "`NON-EQUI JOIN`", explanation: "Because this join uses the `BETWEEN` operator instead of `=`, it is a `NON-EQUI JOIN`." },
+                            { question: "Scenario: You want to find customers who live in 'California' but have never placed an order.", options: ["`...INNER JOIN Orders... WHERE c.State = 'California'`", "`...LEFT JOIN Orders... WHERE c.State = 'California' AND o.OrderID IS NULL`", "`...RIGHT JOIN Orders... WHERE c.State = 'California'`", "`...CROSS JOIN Orders... WHERE c.State = 'California'`"], answer: "`...LEFT JOIN Orders... WHERE c.State = 'California' AND o.OrderID IS NULL`", explanation: "The `LEFT JOIN` includes all customers. The `WHERE` clause then filters for those in California for whom the order details are `NULL`." },
+                            { question: "Scenario: What is the key difference in behavior between the `ON` clause and the `WHERE` clause in a query with an `OUTER JOIN` (like a `LEFT JOIN`)?", options: ["There is no difference; they can be used interchangeably.", "A condition in `ON` is applied *before* the join, while `WHERE` is applied *after*. This can change which rows are included.", "`WHERE` cannot be used with an `OUTER JOIN`.", "`ON` can only use the `=` operator."], answer: "A condition in `ON` is applied *before* the join, while `WHERE` is applied *after*. This can change which rows are included.", explanation: "Filtering in `ON` happens as the join is constructed, while `WHERE` filters the final result. For `OUTER JOIN`s, this distinction is critical and affects the output." },
+                            { question: "Scenario: In an `Employees` table, the CEO is the only employee whose `ManagerID` is `NULL`. Which query correctly lists *all* employees and their manager's name, showing `NULL` for the CEO's manager?", options: ["`FROM Employees e INNER JOIN Employees m ON e.ManagerID = m.EmployeeID`", "`FROM Employees e LEFT JOIN Employees m ON e.ManagerID = m.EmployeeID`", "`FROM Employees e RIGHT JOIN Employees m ON e.ManagerID = m.EmployeeID`", "`FROM Employees e CROSS JOIN Employees m`"], answer: "`FROM Employees e LEFT JOIN Employees m ON e.ManagerID = m.EmployeeID`", explanation: "A `LEFT JOIN` is essential here. It ensures all employees (`e`) are kept, including the CEO. Since the CEO's `ManagerID` is `NULL`, the join condition fails for them, and the manager's name (`m.Name`) correctly shows as `NULL`." },
+                            { question: "Scenario: You want to find all doctors and list the patients they have seen. You also want to include doctors who haven't seen any patients yet. Which query is correct?", options: ["`FROM Doctors d INNER JOIN Patients p ON d.ID = p.DoctorID`", "`FROM Doctors d CROSS JOIN Patients p`", "`FROM Patients p LEFT JOIN Doctors d ON p.DoctorID = d.ID`", "`FROM Doctors d LEFT JOIN Patients p ON d.ID = p.DoctorID`"], answer: "`FROM Doctors d LEFT JOIN Patients p ON d.ID = p.DoctorID`", explanation: "To ensure all doctors are listed, `Doctors` must be the left table in a `LEFT JOIN`." },
+                            { question: "Scenario: Which statement about aliases is true?", options: ["An alias permanently renames a table in the database.", "An alias can be used to rename columns as well as tables.", "You must use the `AS` keyword when creating a table alias (e.g., `Employees AS e`).", "Aliases cannot be used with `OUTER JOIN`s."], answer: "An alias can be used to rename columns as well as tables.", explanation: "You can use aliases for both tables (`FROM Employees AS e`) and columns (`SELECT Name AS EmployeeName`) for clarity." },
+                            { question: "Scenario: You have a table of `Tasks` with `StartDate` and `EndDate`. You need to find tasks that were active at the same time as other tasks (i.e., their date ranges overlap). This requires a...", options: ["`SELF EQUI JOIN` on `TaskID`.", "`SELF NON-EQUI JOIN` comparing the start and end dates of two instances of the table.", "`CROSS JOIN` followed by a `GROUP BY`.", "`NATURAL JOIN`."], answer: "`SELF NON-EQUI JOIN` comparing the start and end dates of two instances of the table.", explanation: "This complex problem requires joining the table to itself and using conditions like `t1.StartDate < t2.EndDate` and `t1.EndDate > t2.StartDate`, which is a `NON-EQUI` condition." },
+                            { question: "Scenario: You need to join three tables: `Students`, `Enrollments`, and `Courses`. Which syntax is valid for chaining these joins?", options: ["`FROM Students JOIN Enrollments ON ... JOIN Courses ON ...`", "`FROM Students JOIN (Enrollments, Courses) ON ...`", "`FROM Students, Enrollments, Courses WHERE ... AND ...`", "Both A and C are syntactically valid ways to join three tables."], answer: "Both A and C are syntactically valid ways to join three tables.", explanation: "While the explicit `JOIN` syntax (A) is modern and preferred, the implicit comma-based syntax (C) is also valid, though less clear." },
+                            { question: "Scenario: To get a result set that includes all rows from a `Sales` table and all rows from a `Targets` table, even when there are no matches, which syntax would you use in MySQL?", options: ["`FROM Sales FULL OUTER JOIN Targets ...`", "`FROM Sales LEFT JOIN Targets ... UNION FROM Sales RIGHT JOIN Targets ...`", "`FROM Sales CROSS JOIN Targets ...`", "`FROM Sales NATURAL JOIN Targets ...`"], answer: "`FROM Sales LEFT JOIN Targets ... UNION FROM Sales RIGHT JOIN Targets ...`", explanation: "MySQL does not support `FULL OUTER JOIN`, so it must be emulated by combining the results of a `LEFT JOIN` and a `RIGHT JOIN` with `UNION`." },
+                            { question: "Scenario: You have `TableA` with columns `(ID, Name)` and `TableB` with columns `(ID, Name)`. What is a key difference in the output between `NATURAL JOIN` and `... ON A.ID = B.ID AND A.Name = B.Name`?", options: ["The `ON` clause version will be faster.", "The `NATURAL JOIN` will produce only one `ID` column and one `Name` column in the result.", "The `ON` clause version will produce fewer rows.", "There is no difference."], answer: "The `NATURAL JOIN` will produce only one `ID` column and one `Name` column in the result.", explanation: "A `NATURAL JOIN` automatically merges columns with the same name, whereas a standard join with an `ON` clause will return the columns from both tables (e.g., `A.ID`, `B.ID`)." },
+                            { question: "Scenario: You want to find parts that do *not* have a supplier.", options: ["`FROM Parts p INNER JOIN Suppliers s ON p.SupplierID = s.ID`", "`FROM Parts p LEFT JOIN Suppliers s ON p.SupplierID = s.ID WHERE s.ID IS NULL`", "`FROM Suppliers s LEFT JOIN Parts p ON s.ID = p.SupplierID WHERE p.ID IS NULL`", "`FROM Parts p RIGHT JOIN Suppliers s ON p.SupplierID = s.ID WHERE s.ID IS NULL`"], answer: "`FROM Parts p LEFT JOIN Suppliers s ON p.SupplierID = s.ID WHERE s.ID IS NULL`", explanation: "This is the classic anti-join pattern: perform a `LEFT JOIN` to keep all parts, then filter with `WHERE` to find the ones where the supplier side is `NULL`." },
+                        ]
+                    }
+                }
+            },
+            'rb2-report': {
+                title: "Final Challenge Report",
+                type: 'report',
+                 backgroundClass: 'bg-report',
+            }
+        };
+
+        // --- STATE ---
+        let gameState = {};
+        let currentQuestState = {};
+
+        // --- DOM ELEMENTS ---
+        const appContainer = document.getElementById('app-container');
+        const dynamicContent = document.getElementById('dynamic-content');
+        const modalOverlay = document.getElementById('modal-overlay');
+        const modalContent = document.getElementById('modal-content');
+        const modalTitle = document.getElementById('modal-title');
+        const modalText = document.getElementById('modal-text');
+        const modalButtons = document.getElementById('modal-buttons');
+        const gameOverModal = document.getElementById('game-over-modal');
+        const gameOverTitle = document.getElementById('game-over-title');
+        const gameOverText = document.getElementById('game-over-text');
+        const gameOverButtons = document.getElementById('game-over-buttons');
+        const buyLifeBtn = document.getElementById('buy-life-btn');
+        const nicknameModalOverlay = document.getElementById('nickname-modal-overlay');
+        const nicknameInput = document.getElementById('nickname-input');
+
+        // --- LOCAL STORAGE & STATE MANAGEMENT ---
+        function loadPlayerData() {
+            const savedData = localStorage.getItem('sqlQuestPlayerData');
+            if (savedData) {
+                gameState = JSON.parse(savedData);
+                checkStreak();
+            } else {
+                nicknameModalOverlay.classList.remove('hidden');
+            }
+        }
+
+        function savePlayerData() {
+            localStorage.setItem('sqlQuestPlayerData', JSON.stringify(gameState));
+        }
+
+        function saveNickname() {
+            const nickname = nicknameInput.value.trim();
+            if (nickname) {
+                gameState = {
+                    nickname: nickname,
+                    lives: 5,
+                    xp: 0,
+                    quests: {},
+                    streak: { lastLogin: null, count: 0 }
+                };
+                nicknameModalOverlay.classList.add('hidden');
+                checkStreak();
+                initializeApp();
+                setTimeout(showHelpModal, 500); // Show guide on first start
+            }
+        }
+        
+        function checkStreak() {
+            const today = new Date().toDateString();
+            if (!gameState.streak) { 
+                gameState.streak = { lastLogin: null, count: 0 };
+            }
+            const lastLogin = gameState.streak.lastLogin;
+
+            if (today === lastLogin) return;
+
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+
+            if (lastLogin === yesterday.toDateString()) {
+                gameState.streak.count++;
+            } else {
+                gameState.streak.count = 1;
+            }
+
+            gameState.streak.lastLogin = today;
+
+            if (gameState.streak.count > 0 && gameState.streak.count % 3 === 0) {
+                gameState.xp += 10;
+                setTimeout(() => showModal(`Streak Bonus!`, `You're on a ${gameState.streak.count}-day streak! You've earned 10 bonus XP.`), 500);
+            }
+            savePlayerData();
+        }
+
+        // --- RENDERING ---
+        function renderHeader() {
+            const inQuest = currentQuestState.id;
+            const title = inQuest ? questsData[inQuest].title : "SQL Quest Hub";
+            
+            const headerHTML = `
+                <header class="w-full max-w-4xl mx-auto px-4">
+                    <div class="bg-white rounded-xl shadow-md p-6 border-b-4 border-blue-500">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h1 class="text-2xl md:text-3xl font-bold text-slate-900">${title}</h1>
+                                ${!inQuest ? `<p class="text-slate-600">Welcome, ${gameState.nickname}!</p>` : `<button onclick="initializeApp()" class="text-sm text-blue-600 hover:underline font-semibold">&larr; Back to Hub</button>`}
+                            </div>
+                            <div class="flex items-center space-x-4 md:space-x-6 text-md md:text-lg">
+                                <div class="flex items-center" title="${gameState.streak.count}-day streak">
+                                    <span class="font-bold text-orange-500 mr-2">🔥</span>
+                                    <span class="font-semibold text-slate-700">${gameState.streak.count}</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="font-bold text-red-500 mr-2">❤️</span>
+                                    <span id="lives-count" class="font-semibold text-slate-700">${gameState.lives}</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="font-bold text-yellow-500 mr-2">⭐</span>
+                                    <span id="xp-count" class="font-semibold text-slate-700">${gameState.xp}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </header>`;
+            const existingHeader = appContainer.querySelector('header');
+            if (existingHeader) existingHeader.remove();
+            appContainer.insertAdjacentHTML('afterbegin', headerHTML);
+        }
+
+        function renderHub() {
+            const isQ1Completed = gameState.quests['q1']?.completed;
+            const isQ2Completed = gameState.quests['q2']?.completed;
+            const isRB1Completed = gameState.quests['rb1']?.completed;
+            const isQ3Completed = gameState.quests['q3']?.completed;
+            const isQ4Completed = gameState.quests['q4']?.completed;
+
+             let hubControlsHTML = `
+                <div class="hub-controls">
+                    <div class="side-icon" onclick="showHelpModal()">
+                        ?
+                        <span class="tooltip">Game Guide</span>
+                    </div>
+             `;
+
+             if (gameState.rb2Report) {
+                 hubControlsHTML += `
+                    <div class="side-icon" onclick="startQuest('rb2-report')">
+                        📜
+                        <span class="tooltip">View Report</span>
+                    </div>
+                 `;
+             }
+
+             if (gameState.quests['rb2']?.completed) {
+                 hubControlsHTML += `
+                    <div class="side-icon" onclick="showSecretCodeModal()">
+                        🔑
+                        <span class="tooltip">Secret Code</span>
+                    </div>
+                 `;
+             }
+             
+             hubControlsHTML += `</div>`;
+
+
+             const hubHTML = `
+                <div class="w-full max-w-4xl mx-auto px-4 mt-8">
+                    <div class="roadmap-container">
+                        ${hubControlsHTML}
+                        <div class="cloud c1"></div>
+                        <div class="cloud c2"></div>
+                        <div class="cloud c3"></div>
+                        
+                        <svg class="hub-path-svg" viewBox="0 0 800 400" preserveAspectRatio="none">
+                            <path d="M 40 200 C 150 50, 250 350, 400 200 S 550 50, 650 200 S 750 350, 760 200" fill="none" stroke="#a0aec0" stroke-width="50" stroke-linecap="round"/>
+                            <path d="M 40 200 C 150 50, 250 350, 400 200 S 550 50, 650 200 S 750 350, 760 200" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-dasharray="15 15"/>
+                        </svg>
+                        <div class="scenery"></div>
+                        
+                        <!-- Quest 1 -->
+                        <div class="quest-hotspot" style="left: 5%; top: 50%;" onclick="startQuest('q1')">
+                            <div class="hotspot-marker ${gameState.quests['q1']?.completed ? 'bg-green-500' : 'bg-blue-500'}">${gameState.quests['q1']?.completed ? '✔' : '1'}</div>
+                            <div class="hotspot-label">Quest 1</div>
+                        </div>
+
+                        <!-- Quest 2 -->
+                        <div class="quest-hotspot ${!isQ1Completed ? 'quest-locked' : ''}" style="left: 25%; top: 22%;" onclick="${isQ1Completed ? "startQuest('q2')" : "showModal('Quest Locked', 'You must complete Quest 1 to unlock this quest.')"}">
+                            <div class="hotspot-marker ${isQ1Completed ? (gameState.quests['q2']?.completed ? 'bg-green-500' : 'bg-blue-500') : 'bg-slate-400'}">${!isQ1Completed ? '&#128274;' : (gameState.quests['q2']?.completed ? '✔' : '2')}</div>
+                            <div class="hotspot-label">Quest 2</div>
+                        </div>
+                        
+                        <!-- Mid Challenge -->
+                        <div class="quest-hotspot ${!isQ2Completed ? 'quest-locked' : ''}" style="left: 37%; top: 70%;" onclick="${isQ2Completed ? "startQuest('rb1')" : "showModal('Quest Locked', 'You must complete Quest 2 to unlock this challenge.')"}">
+                            <div class="hotspot-marker ${isQ2Completed ? (gameState.quests['rb1']?.completed ? 'bg-green-500' : 'bg-red-500') : 'bg-slate-400'}">${!isQ2Completed ? '&#128274;' : (gameState.quests['rb1']?.completed ? '✔' : '🔓')}</div>
+                            <div class="hotspot-label">Mid Challenge</div>
+                        </div>
+                        
+                        <!-- Quest 3 -->
+                        <div class="quest-hotspot ${!isRB1Completed ? 'quest-locked' : ''}" style="left: 55%; top: 35%;" onclick="${isRB1Completed ? "startQuest('q3')" : "showModal('Quest Locked', 'You must complete the Mid Challenge to continue.')"}">
+                            <div class="hotspot-marker ${isRB1Completed ? (gameState.quests['q3']?.completed ? 'bg-green-500' : 'bg-blue-500') : 'bg-slate-400'}">${!isRB1Completed ? '&#128274;' : (gameState.quests['q3']?.completed ? '✔' : '3')}</div>
+                            <div class="hotspot-label">Quest 3</div>
+                        </div>
+                        
+                        <!-- Quest 4 -->
+                        <div class="quest-hotspot ${!isQ3Completed ? 'quest-locked' : ''}" style="left: 75%; top: 65%;" onclick="${isQ3Completed ? "startQuest('q4')" : "showModal('Quest Locked', 'You must complete Quest 3 to continue.')"}">
+                            <div class="hotspot-marker ${isQ3Completed ? (gameState.quests['q4']?.completed ? 'bg-green-500' : 'bg-blue-500') : 'bg-slate-400'}">${!isQ3Completed ? '&#128274;' : (gameState.quests['q4']?.completed ? '✔' : '4')}</div>
+                            <div class="hotspot-label">Quest 4</div>
+                        </div>
+
+                        <!-- Road Block 2 -->
+                        <div class="quest-hotspot ${!isQ4Completed ? 'quest-locked' : ''}" style="left: 95%; top: 50%;" onclick="${isQ4Completed ? "startQuest('rb2')" : "showModal('Quest Locked', 'You must complete Quest 4 to unlock the final challenge.')"}">
+                            <div class="hotspot-marker ${isQ4Completed ? (gameState.quests['rb2']?.completed ? 'bg-green-500' : 'bg-red-500') : 'bg-slate-400'}">${!isQ4Completed ? '&#128274;' : (gameState.quests['rb2']?.completed ? '✔' : '🏆')}</div>
+                            <div class="hotspot-label">Final Challenge</div>
+                        </div>
+                    </div>
+                </div>`;
+            dynamicContent.innerHTML = hubHTML;
+            const footer = appContainer.querySelector('footer');
+            if(footer) footer.remove();
+        }
+
+        function renderQuestView() {
+            const quest = questsData[currentQuestState.id];
+            const section = quest.tutorial[currentQuestState.section];
+            const userAnswer = currentQuestState.answers[currentQuestState.section] || {};
+            const isSectionPassed = userAnswer.correct;
+            const currentQuestion = section.quiz.bank[userAnswer.currentQuestionIndex || 0];
+
+            let quizHtml = `<div class="mt-8 border-t pt-6"><h3 class="text-xl font-semibold mb-4 text-slate-800">Check your understanding:</h3>`;
+            quizHtml += `<div class="mb-6 p-4 rounded-lg ${isSectionPassed ? 'bg-green-50' : 'bg-slate-50'}">`;
+            quizHtml += `<p class="font-medium mb-3">${currentQuestion.question}</p>`;
+            quizHtml += '<div class="flex flex-col sm:flex-row sm:flex-wrap gap-2">';
+            currentQuestion.options.forEach(option => {
+                let buttonClass = 'bg-white hover:bg-blue-50 border border-slate-300';
+                if (isSectionPassed && option === currentQuestion.correctAnswer) buttonClass = 'correct';
+                quizHtml += `<button class="quiz-option w-full sm:w-auto flex-grow text-left p-3 rounded-lg ${buttonClass}" onclick="checkAnswer('${option.replace(/'/g, "\\'")}')" ${isSectionPassed ? 'disabled' : ''}>${option}</button>`;
+            });
+            quizHtml += '</div>';
+            if (userAnswer.hasAttempted && !isSectionPassed) {
+                 quizHtml += `<button onclick="showExplanation()" class="text-sm text-blue-600 hover:underline mt-3">Explain</button>`;
+            }
+            quizHtml += '</div></div>';
+
+            dynamicContent.innerHTML = `
+                <div class="w-full max-w-4xl mx-auto px-4 mt-8">
+                    <div id="slide-container" class="bg-white rounded-xl shadow-md p-6 md:p-8 min-h-[400px]">
+                        <h2 class="text-2xl font-bold text-slate-900">${section.title}</h2>
+                        <div class="mt-4 text-slate-700 leading-relaxed">${section.content}</div>
+                        ${quizHtml}
+                    </div>
+                </div>`;
+            
+            let footer = appContainer.querySelector('footer');
+            if (!footer) {
+                const footerHTML = `
+                    <footer class="w-full max-w-4xl mx-auto px-4 mt-8 flex justify-between items-center">
+                        <button id="prev-btn" onclick="goToPreviousSection()" class="nav-btn bg-slate-200 text-slate-700 font-semibold py-2 px-6 rounded-lg hover:bg-slate-300 transition-colors">Previous</button>
+                        <span id="slide-indicator" class="font-semibold text-slate-600"></span>
+                        <button id="next-btn" class="nav-btn bg-blue-500 text-white font-semibold py-2 px-8 rounded-lg hover:bg-blue-600 transition-colors">Next</button>
+                    </footer>`;
+                dynamicContent.insertAdjacentHTML('afterend', footerHTML);
+            }
+            updateQuestNav();
+        }
+        
+        function renderChallengeView() {
+             const challenge = questsData[currentQuestState.id].challenge;
+             const question = challenge.questions[currentQuestState.question];
+            
+             const tablesHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <h3 class="font-bold text-lg mb-2">Employee Table</h3>
+                        <table id="employee-table" class="result-table challenge-table">
+                            <thead><tr>
+                                ${question.type === 'highlight-columns' ? `
+                                <th class="checkbox-th"><div class="flex flex-col items-center"><input type="checkbox" id="cb-e-ID"><label for="cb-e-ID">ID</label></div></th>
+                                <th class="checkbox-th"><div class="flex flex-col items-center"><input type="checkbox" id="cb-e-Name"><label for="cb-e-Name">Name</label></div></th>
+                                <th class="checkbox-th"><div class="flex flex-col items-center"><input type="checkbox" id="cb-e-Department"><label for="cb-e-Department">Department</label></div></th>
+                                ` : `<th>ID</th><th>Name</th><th>Department</th>`}
+                            </tr></thead>
+                            <tbody>
+                                <tr id="e-row-0" class="highlightable-row"><td>1</td><td>Alice</td><td>Sales</td></tr>
+                                <tr id="e-row-1" class="highlightable-row"><td>2</td><td>Bob</td><td>IT</td></tr>
+                                <tr id="e-row-2" class="highlightable-row"><td>3</td><td>Carol</td><td>Sales</td></tr>
+                                <tr id="e-row-3" class="highlightable-row"><td>4</td><td>David</td><td>HR</td></tr>
+                                <tr id="e-row-4" class="highlightable-row"><td>5</td><td>Eve</td><td>IT</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg mb-2">Parking Table</h3>
+                        <table id="parking-table" class="result-table challenge-table">
+                            <thead><tr>
+                                ${question.type === 'highlight-columns' ? `
+                                <th class="checkbox-th"><div class="flex flex-col items-center"><input type="checkbox" id="cb-p-ID"><label for="cb-p-ID">ID</label></div></th>
+                                <th class="checkbox-th"><div class="flex flex-col items-center"><input type="checkbox" id="cb-p-EmployeeID"><label for="cb-p-EmployeeID">EmployeeID</label></div></th>
+                                <th class="checkbox-th"><div class="flex flex-col items-center"><input type="checkbox" id="cb-p-SpotNumber"><label for="cb-p-SpotNumber">SpotNumber</label></div></th>
+                                ` : `<th>ID</th><th>EmployeeID</th><th>SpotNumber</th>`}
+                            </tr></thead>
+                            <tbody>
+                                <tr id="p-row-0" class="highlightable-row"><td>101</td><td>1</td><td>A1</td></tr>
+                                <tr id="p-row-1" class="highlightable-row"><td>102</td><td class="null-val">NULL</td><td>A2</td></tr>
+                                <tr id="p-row-2" class="highlightable-row"><td>103</td><td>3</td><td>B2</td></tr>
+                                <tr id="p-row-3" class="highlightable-row"><td>104</td><td>4</td><td>C3</td></tr>
+                                <tr id="p-row-4" class="highlightable-row"><td>105</td><td class="null-val">NULL</td><td>D4</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+
+             let questionHTML = '';
+             switch(question.type) {
+                 case 'highlight-columns':
+                 case 'highlight-rows':
+                 case 'highlight-rows-inverse':
+                     questionHTML = tablesHTML;
+                     break;
+                 case 'multiple-choice':
+                     questionHTML = `<div class="flex flex-col gap-3">${question.options.map(o => `<button class="quiz-option bg-white p-3 rounded-lg border text-left" onclick="selectOption(this, '${o.replace(/'/g, "\\'")}')"><code class="text-sm">${o}</code></button>`).join('')}</div>`;
+                     if (question.resultTable) {
+                         questionHTML = `<p class="mb-4 font-semibold">Result:</p><table class="result-table mb-4">${question.resultTable}</table>` + questionHTML;
+                     }
+                     break;
+             }
+
+             const challengeStarsHTML = Array(currentQuestState.stars).fill('⭐').join('') + Array(challenge.stars - currentQuestState.stars).fill('☆').join('');
+
+             dynamicContent.innerHTML = `
+                 <div class="w-full max-w-4xl mx-auto px-4 mt-8">
+                    <div id="challenge-container" class="bg-white rounded-xl shadow-md p-6 md:p-8">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-xl font-bold">Question ${currentQuestState.question + 1} of ${challenge.questions.length}</h2>
+                            <div class="text-2xl">${challengeStarsHTML}</div>
+                        </div>
+                        <p class="text-slate-700 mb-6">${question.sql ? `<pre class="bg-slate-800 text-white p-2 rounded-md text-sm mb-2"><code>${question.sql}</code></pre>` : ''}${question.task}</p>
+                        <div id="challenge-interaction-area">${questionHTML}</div>
+                        <div class="mt-6 pt-6 border-t flex justify-between items-center">
+                            <div>
+                                <button class="nav-btn bg-yellow-400 text-yellow-900 font-semibold py-2 px-4 rounded-lg hover:bg-yellow-500" onclick="getHint()">Hint (10 XP)</button>
+                                <button class="nav-btn bg-green-200 text-green-900 font-semibold py-2 px-4 rounded-lg hover:bg-green-300" onclick="buyStar()" ${currentQuestState.stars > 0 ? 'disabled' : ''}>Buy Star (30 XP)</button>
+                            </div>
+                            <button class="nav-btn bg-blue-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-600" onclick="validateChallengeAnswer()">Validate</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+             if (question.type === 'highlight-rows' || question.type === 'highlight-rows-inverse') {
+                 document.querySelectorAll('.highlightable-row').forEach(el => {
+                     el.addEventListener('click', (e) => { e.currentTarget.classList.toggle('highlighted'); });
+                     el.addEventListener('dblclick', (e) => { e.currentTarget.classList.remove('highlighted'); });
+                 });
+             }
+        }
+
+        function renderRoadblock2View() {
+            const challenge = questsData.rb2.challenge;
+            const state = currentQuestState;
+            const question = state.currentQuestion;
+
+            const starsHTML = '⭐'.repeat(state.stars) + '☆'.repeat(challenge.stars - state.stars);
+            
+            let optionsHTML = '';
+            question.options.forEach(option => {
+                optionsHTML += `<button class="quiz-option w-full text-left p-4 rounded-lg bg-white hover:bg-blue-50 border border-slate-300" onclick="checkRoadblock2Answer('${option.replace(/'/g, "\\'")}')">${option}</button>`;
+            });
+
+            dynamicContent.innerHTML = `
+                <div class="w-full max-w-4xl mx-auto px-4 mt-8">
+                    <div id="rb2-container" class="bg-white rounded-xl shadow-md p-6 md:p-8">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-xl font-bold">Question ${state.reportData.length + 1} of ${challenge.totalQuestions}</h2>
+                            <div class="text-2xl">${starsHTML}</div>
+                        </div>
+                        <p class="text-slate-700 text-lg mb-6">${question.question}</p>
+                        <div class="flex flex-col gap-3">
+                            ${optionsHTML}
+                        </div>
+                    </div>
+                </div>`;
+        }
+
+        function renderReportView() {
+            let reportHTML = `
+            <div class="w-full max-w-4xl mx-auto px-4 mt-8">
+                <div class="bg-white rounded-xl shadow-md p-6 md:p-8">`;
+            const reportData = gameState.rb2Report || [];
+            
+            reportData.forEach((item, index) => {
+                const isCorrect = item.userAnswer === item.correctAnswer;
+                reportHTML += `
+                    <div class="mb-6 pb-6 border-b last:border-b-0">
+                        <p class="font-semibold text-lg mb-2">Question ${index + 1}: ${item.question}</p>
+                        <p class="mb-2 p-2 rounded ${isCorrect ? 'bg-green-100' : 'bg-red-100'}">Your Answer: <span class="font-medium">${item.userAnswer}</span> ${isCorrect ? '✅' : '❌'}</p>
+                        ${!isCorrect ? `<p class="mb-2 p-2 rounded bg-green-100">Correct Answer: <span class="font-medium">${item.correctAnswer}</span></p>` : ''}
+                        <p class="text-sm text-slate-600 mt-2 p-2 bg-slate-50 rounded"><strong>Explanation:</strong> ${item.explanation}</p>
+                    </div>
+                `;
+            });
+
+            if (reportData.length === 0) {
+                reportHTML += `<p>No report data available. Attempt the Final Challenge to see your results!</p>`;
+            }
+
+            reportHTML += `</div></div>`;
+            dynamicContent.innerHTML = reportHTML;
+        }
+
+        function updateQuestNav() {
+             const quest = questsData[currentQuestState.id];
+             const sectionIndex = currentQuestState.section;
+             const isSectionPassed = currentQuestState.answers[sectionIndex]?.correct;
+
+             document.getElementById('slide-indicator').textContent = `${sectionIndex + 1} / ${quest.tutorial.length}`;
+             document.getElementById('prev-btn').disabled = sectionIndex === 0;
+            
+             const nextBtn = document.getElementById('next-btn');
+             nextBtn.disabled = !isSectionPassed;
+
+             if (sectionIndex === quest.tutorial.length - 1) {
+                 nextBtn.textContent = 'Finish Quest';
+                 nextBtn.onclick = finishQuest;
+             } else {
+                 nextBtn.textContent = 'Next';
+                 nextBtn.onclick = goToNextSection;
+             }
+        }
+
+        // --- QUEST & CHALLENGE LOGIC ---
+        function startQuest(questId) {
+            const quest = questsData[questId];
+            document.body.className = '';
+            document.body.classList.add(quest.backgroundClass || 'bg-hub');
+
+            if (quest.type === 'challenge') {
+                startChallenge(questId);
+                return;
+            }
+            if (quest.type === 'adaptive-challenge') {
+                startRoadblock2(questId);
+                return;
+            }
+            if (quest.type === 'report') {
+                currentQuestState = { id: questId };
+                renderHeader();
+                renderReportView();
+                return;
+            }
+            currentQuestState = {id: questId, section: 0, answers: {}, isPractice: gameState.quests[questId]?.completed || false };
+            quest.tutorial.forEach((sec, index) => {
+                const initialQuestionIndex = getNewQuestionIndex(sec.quiz.bank, []);
+                currentQuestState.answers[index] = {
+                    correct: false, currentQuestionIndex: initialQuestionIndex,
+                    askedIndices: [initialQuestionIndex], hasAttempted: false
+                };
+            });
+            renderHeader();
+            renderQuestView();
+        }
+
+        function startChallenge(questId) {
+            const challenge = questsData[questId].challenge;
+            const isPractice = gameState.quests[questId]?.completed || false;
+            if (gameState.lives < challenge.entryCost && !isPractice) {
+                showModal("Not Enough Lives", `You need at least ${challenge.entryCost} life to start this challenge.`);
+                return;
+            }
+            if (!isPractice) {
+                gameState.lives -= challenge.entryCost;
+            }
+
+            currentQuestState = {
+                id: questId, question: 0, stars: challenge.stars,
+                attempts: 0, selection: null, isPractice: isPractice
+            };
+            savePlayerData();
+            renderHeader();
+            renderChallengeView();
+        }
+        
+        function startRoadblock2(questId) {
+            const challenge = questsData[questId].challenge;
+            const isPractice = gameState.quests[questId]?.completed || false;
+             if (gameState.lives < challenge.entryCost && !isPractice) {
+                showModal("Not Enough Lives", `You need at least ${challenge.entryCost} life to start this challenge.`);
+                return;
+            }
+            if (!isPractice) {
+                gameState.lives -= challenge.entryCost;
+            }
+
+            currentQuestState = {
+                id: questId,
+                stars: challenge.stars,
+                reportData: [],
+                difficulty: 'easy',
+                askedIndices: { easy: [], medium: [], hard: [] },
+                isPractice: isPractice
+            };
+            
+            selectNextRb2Question();
+            savePlayerData();
+            renderHeader();
+            renderRoadblock2View();
+        }
+        
+        function selectNextRb2Question() {
+            const state = currentQuestState;
+            const bank = questsData[state.id].challenge.bank;
+
+            // Adaptive Logic
+            if (state.reportData.filter(r => r.userAnswer === r.correctAnswer).length >= 6) state.difficulty = 'hard';
+            else if (state.reportData.filter(r => r.userAnswer === r.correctAnswer).length >= 3) state.difficulty = 'medium';
+            else state.difficulty = 'easy';
+
+            let questionPool = bank[state.difficulty];
+            let askedPool = state.askedIndices[state.difficulty];
+            
+            let availableIndices = questionPool.map((_, i) => i).filter(i => !askedPool.includes(i));
+            if (availableIndices.length === 0) {
+                 askedPool.length = 0; // Reset if we run out of questions at this level
+                 availableIndices = questionPool.map((_, i) => i);
+            }
+
+            const randomIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
+            askedPool.push(randomIndex);
+            state.currentQuestion = questionPool[randomIndex];
+        }
+
+        function checkRoadblock2Answer(selectedOption) {
+            const state = currentQuestState;
+            const question = state.currentQuestion;
+            const challenge = questsData[state.id].challenge;
+
+            // Save data for the report
+            state.reportData.push({
+                question: question.question,
+                userAnswer: selectedOption,
+                correctAnswer: question.answer,
+                explanation: question.explanation
+            });
+
+            if (selectedOption === question.answer) {
+                // Correct
+            } else {
+                state.stars--;
+            }
+
+            if (state.reportData.length >= challenge.totalQuestions || state.stars <= 0) {
+                finishRoadblock2(state.stars > 0);
+            } else {
+                selectNextRb2Question();
+                renderRoadblock2View();
+            }
+            renderHeader(); // To update star count if needed
+        }
+        
+        function finishRoadblock2(isWin) {
+            const challenge = questsData[currentQuestState.id].challenge;
+            
+            if (!currentQuestState.isPractice) {
+                gameState.rb2Report = currentQuestState.reportData; // Save the final report
+                if (isWin) {
+                    gameState.xp += 200; // Big bonus for finishing
+                    gameState.quests[currentQuestState.id] = { completed: true };
+                }
+                savePlayerData();
+            }
+
+            initializeApp(); // Go back to the hub
+
+            // Show confirmation modal to view report
+            setTimeout(() => {
+                const title = isWin ? "Challenge Complete! 🎉" : "Challenge Failed";
+                const text = isWin ? "You are a true SQL Master! You've conquered the final challenge." : "Don't give up! Review the report to see where you can improve.";
+                
+                showConfirmationModal(
+                    title,
+                    text + " Would you like to view your report?",
+                    () => startQuest('rb2-report'), // onConfirm action
+                    "View Report",
+                    "Later"
+                );
+
+                if(isWin) triggerConfetti();
+            }, 500); // Delay to allow hub to render
+        }
+
+        function triggerConfetti() {
+            const container = document.getElementById('confetti-container');
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = `${Math.random() * 100}vw`;
+                confetti.style.animationDelay = `${Math.random() * 2}s`;
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                container.appendChild(confetti);
+
+                setTimeout(() => confetti.remove(), 5000);
+            }
+        }
+
+
+        function validateChallengeAnswer() {
+            const challenge = questsData[currentQuestState.id].challenge;
+            const question = challenge.questions[currentQuestState.question];
+            let isCorrect = false;
+
+            let userAnswer;
+            if (question.type === 'highlight-columns') {
+                userAnswer = Array.from(document.querySelectorAll('#challenge-interaction-area input[type="checkbox"]:checked')).map(el => el.id).sort();
+                isCorrect = userAnswer.length === question.correctAnswer.length && userAnswer.every((val, i) => val === question.correctAnswer[i]);
+            } else if (question.type.includes('highlight-rows')) {
+                userAnswer = Array.from(document.querySelectorAll('.highlighted')).map(el => el.id).sort();
+                isCorrect = userAnswer.length === question.correctAnswer.length && userAnswer.every((val, i) => val === question.correctAnswer[i]);
+            } else if (question.type === 'multiple-choice') {
+                userAnswer = currentQuestState.selection;
+                isCorrect = userAnswer === question.correctAnswer;
+            } 
+
+            if (isCorrect) {
+                showModal("Correct!", "Great job! On to the next question.");
+                currentQuestState.question++;
+                currentQuestState.attempts = 0;
+                if (currentQuestState.question >= challenge.questions.length) {
+                    finishChallenge();
+                } else {
+                    renderChallengeView();
+                }
+            } else {
+                handleIncorrectChallengeAnswer();
+            }
+        }
+        
+        function handleIncorrectChallengeAnswer() {
+            const challenge = questsData[currentQuestState.id].challenge;
+            const question = challenge.questions[currentQuestState.question];
+            currentQuestState.attempts++;
+            
+            let attemptsBeforePenalty = 3;
+            if (question.type === 'multiple-choice') attemptsBeforePenalty = 2;
+
+            let feedback = question.feedback?.default || "That's not quite right. Try again.";
+            if (question.type === 'highlight-columns') {
+                const checked = Array.from(document.querySelectorAll('#challenge-interaction-area input:checked')).map(el => el.id);
+                if (checked.includes('cb-e-ID') && checked.includes('cb-p-ID')) {
+                    feedback = question.feedback.wrongPair;
+                }
+            } else if (question.type.includes('highlight-rows')) {
+                const correctCount = question.correctAnswer.length;
+                const selectedCount = document.querySelectorAll('.highlighted').length;
+                if (selectedCount < correctCount) feedback = question.feedback.missing || feedback;
+                if (selectedCount > correctCount) feedback = question.feedback.extra || feedback;
+            } else if (question.type === 'multiple-choice') {
+                feedback = question.feedback[currentQuestState.selection] || feedback;
+            }
+
+            if (currentQuestState.attempts >= attemptsBeforePenalty && !currentQuestState.isPractice) {
+                currentQuestState.stars--;
+                currentQuestState.attempts = 0;
+                showModal("Star Lost!", `${feedback} You lost a star for too many incorrect attempts.`);
+                if (currentQuestState.stars <= 0) {
+                    endChallenge(false);
+                } else {
+                    renderChallengeView();
+                }
+            } else {
+                 showModal("Incorrect", feedback);
+            }
+        }
+
+        function finishChallenge() {
+            const stars = currentQuestState.stars;
+            const xpEarned = stars * 50;
+            if (!currentQuestState.isPractice) {
+                gameState.xp += xpEarned;
+                gameState.quests[currentQuestState.id] = { completed: true };
+                savePlayerData();
+            }
+            gameOverTitle.textContent = "Challenge Complete!";
+            gameOverText.innerHTML = `Congratulations! You finished with ${stars} star(s) remaining and earned <strong class="text-yellow-500">${xpEarned} XP</strong>!`;
+            gameOverButtons.innerHTML = `<button onclick="initializeAppAndCloseModal()" class="game-over-btn bg-blue-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-600">Back to Hub</button>`;
+            gameOverModal.classList.remove('hidden');
+        }
+
+        function initializeAppAndCloseModal() {
+            gameOverModal.classList.add('hidden');
+            initializeApp();
+        }
+
+        function endChallenge(isWin) {
+            if (isWin) return;
+            gameOverTitle.textContent = "Challenge Over!";
+            gameOverText.textContent = "You've run out of stars. Better luck next time!";
+            
+            gameOverButtons.innerHTML = `
+                <button onclick="startQuest('q1')" class="game-over-btn bg-blue-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-600">Review Quest 1</button>
+                <button onclick="initializeAppAndCloseModal()" class="game-over-btn bg-slate-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-slate-600">Back to Hub</button>
+            `;
+            gameOverModal.classList.remove('hidden');
+        }
+
+        function buyStarFromEnd() {
+            if (gameState.xp >= 30) {
+                if (!currentQuestState.isPractice) {
+                    gameState.xp -= 30;
+                    savePlayerData();
+                }
+                currentQuestState.stars++;
+                gameOverModal.classList.add('hidden');
+                renderHeader();
+                renderChallengeView();
+            }
+        }
+
+        function getHint() {
+            if (gameState.xp < 10 && !currentQuestState.isPractice) {
+                showModal("Not Enough XP", "You need 10 XP to get a hint.");
+                return;
+            }
+            if (!currentQuestState.isPractice) {
+                gameState.xp -= 10;
+                savePlayerData();
+                renderHeader();
+            }
+            const question = questsData[currentQuestState.id].challenge.questions[currentQuestState.question];
+            showModal("Hint", question.hint);
+        }
+
+        function buyStar() {
+            if (currentQuestState.stars > 0) {
+                showModal("Not Needed", "You can only buy a star when you have none left.");
+                return;
+            }
+            if (gameState.xp < 30 && !currentQuestState.isPractice) {
+                showModal("Not Enough XP", "You need 30 XP to buy a star.");
+                return;
+            }
+             if (!currentQuestState.isPractice) {
+                gameState.xp -= 30;
+                savePlayerData();
+            }
+            currentQuestState.stars++;
+            renderHeader();
+            renderChallengeView();
+        }
+
+        function checkAnswer(selectedOption) {
+            const sectionIndex = currentQuestState.section;
+            let userAnswer = currentQuestState.answers[sectionIndex];
+            const quiz = questsData[currentQuestState.id].tutorial[sectionIndex].quiz;
+            const currentQuestion = quiz.bank[userAnswer.currentQuestionIndex];
+            if (userAnswer.correct) return;
+            userAnswer.hasAttempted = true;
+            const isCorrect = selectedOption === currentQuestion.correctAnswer;
+            if (isCorrect) {
+                userAnswer.correct = true;
+                if (!currentQuestState.isPractice) {
+                    gameState.xp += 10;
+                    showModal("Correct! 🎉", "Great job! You've earned 10 XP.");
+                } else {
+                    showModal("Correct! 🎉", "Great job! (Practice Mode - No XP earned)");
+                }
+            } else {
+                if (!currentQuestState.isPractice) {
+                    gameState.lives--;
+                }
+                if (gameState.lives <= 0 && !currentQuestState.isPractice) {
+                    buyLifeBtn.disabled = gameState.xp < 30;
+                    gameOverModal.classList.remove('hidden');
+                    return;
+                }
+                const newIndex = getNewQuestionIndex(quiz.bank, userAnswer.askedIndices);
+                userAnswer.currentQuestionIndex = newIndex;
+                userAnswer.askedIndices.push(newIndex);
+                const message = currentQuestState.isPractice ? "That's not right. Let's try another question." : "Not Quite 🤔. Let's try a different question. You lost one life.";
+                showModal("Incorrect", message);
+            }
+            if (!currentQuestState.isPractice) savePlayerData();
+            renderHeader();
+            renderQuestView();
+        }
+
+        function finishQuest() {
+            if (!currentQuestState.isPractice) {
+                gameState.quests[currentQuestState.id] = { completed: true };
+                savePlayerData();
+            }
+            showModal("Quest Complete!", `You've finished ${questsData[currentQuestState.id].title}.`);
+            initializeApp();
+        }
+        
+        function restartQuiz() {
+            localStorage.removeItem('sqlQuestPlayerData');
+            location.reload();
+        }
+
+        function buyLife() {
+            if (gameState.xp >= 30) {
+                gameState.xp -= 30;
+                gameState.lives += 1;
+                savePlayerData();
+                gameOverModal.classList.add('hidden');
+                renderHeader();
+            }
+        }
+        
+        function getNewQuestionIndex(bank, askedIndices) {
+            let available = bank.map((_, i) => i).filter(i => !askedIndices.includes(i));
+            if (available.length === 0) {
+                askedIndices.length = 0;
+                available = bank.map((_, i) => i);
+            }
+            return available[Math.floor(Math.random() * available.length)];
+        }
+        
+        function showExplanation() {
+            const sectionIndex = currentQuestState.section;
+            const userAnswer = currentQuestState.answers[sectionIndex];
+            const quiz = questsData[currentQuestState.id].tutorial[sectionIndex].quiz;
+            const currentQuestion = quiz.bank[userAnswer.currentQuestionIndex];
+            showModal(`Explanation for: "${currentQuestion.question}"`, currentQuestion.explanation);
+        }
+        
+        function showSecretCodeModal() {
+            const code = questsData.rb2.challenge.secretCode;
+            showModal("Secret Code Unlocked!", `Congratulations on completing your quest! Your secret code is: <br><br><strong class="text-2xl text-blue-600 tracking-widest">${code}</strong>`);
+        }
+
+        function showHelpModal() {
+            const title = "Your SQL Quest Guide";
+            const text = `
+                <h3 class="font-semibold text-lg mb-2 text-slate-800">Welcome, Data Apprentice!</h3>
+                <p class="mb-4">You are on a journey to master the ancient art of SQL. Your quest is to travel this road, completing lessons and overcoming challenges to prove your skills and become a true Data Wizard.</p>
+                <h3 class="font-semibold text-lg mb-2 text-slate-800">Your Tools:</h3>
+                <ul class="list-disc list-inside space-y-2 text-left">
+                    <li><span class="font-bold text-orange-500">🔥 Streak:</span> Log in each day to increase your streak. Every 3 days, you'll earn a bonus 10 XP!</li>
+                    <li><span class="font-bold text-red-500">❤️ Lives:</span> You spend lives to attempt challenges and lose them for incorrect answers in quests. Run out, and you'll have to try again or buy more with XP.</li>
+                    <li><span class="font-bold text-yellow-500">⭐ XP (Experience Points):</span> Gain XP by completing lessons and challenges. Use it to buy hints or extra lives when you're in a tough spot.</li>
+                    <li><span class="font-bold text-indigo-500">🔑 Secret Code:</span> Conquer the Final Challenge to unlock a secret code and prove your mastery!</li>
+                </ul>
+            `;
+            showModal(title, text);
+        }
+
+        function goToNextSection() {
+            const quest = questsData[currentQuestState.id];
+            if (currentQuestState.section < quest.tutorial.length - 1) {
+                currentQuestState.section++;
+                renderQuestView();
+            }
+        }
+
+        function goToPreviousSection() {
+            if (currentQuestState.section > 0) {
+                currentQuestState.section--;
+                renderQuestView();
+            }
+        }
+
+        function showModal(title, text) {
+            modalTitle.textContent = title;
+            modalText.innerHTML = text;
+            modalButtons.innerHTML = `<button onclick="closeModal()" class="w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600">Got it!</button>`;
+            modalOverlay.classList.remove('hidden');
+            setTimeout(() => {
+                modalOverlay.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-95');
+            }, 10);
+        }
+
+        function confirmBackToHub() {
+            showConfirmationModal(
+                "Are you sure?",
+                "You will forfeit this attempt and will have to spend another life to re-enter.",
+                initializeApp
+            );
+        }
+
+        function showConfirmationModal(title, text, onConfirm, confirmText = "Leave", cancelText = "Stay") {
+            modalTitle.textContent = title;
+            modalText.innerHTML = text;
+            modalButtons.innerHTML = `
+                <button onclick="closeModal()" class="w-1/2 bg-slate-200 text-slate-800 font-semibold py-2 px-4 rounded-lg hover:bg-slate-300">${cancelText}</button>
+                <button id="confirm-btn" class="w-1/2 bg-red-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-600">${confirmText}</button>
+            `;
+            document.getElementById('confirm-btn').onclick = () => {
+                closeModal();
+                if(onConfirm) onConfirm();
+            };
+            modalOverlay.classList.remove('hidden');
+            setTimeout(() => {
+                modalOverlay.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-95');
+            }, 10);
+        }
+
+        function closeModal() {
+            modalOverlay.classList.add('opacity-0');
+            modalContent.classList.add('scale-95');
+            setTimeout(() => modalOverlay.classList.add('hidden'), 300);
+        }
+
+        function selectOption(el, option) {
+            currentQuestState.selection = option;
+            document.querySelectorAll('.quiz-option').forEach(btn => btn.classList.remove('highlighted'));
+            el.classList.add('highlighted');
+        }
+
+        // --- INITIALIZATION ---
+        function initializeApp() {
+            currentQuestState = {}; // Reset quest state when returning to hub
+            document.body.className = '';
+            document.body.classList.add('bg-hub');
+            renderHeader();
+            renderHub();
+        }
+
+        window.onload = () => {
+            loadPlayerData();
+            if (gameState.nickname) {
+                initializeApp();
+            } else {
+                document.body.className = 'bg-hub';
+            }
+            // Add global event listeners for modals
+            window.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !modalOverlay.classList.contains('hidden')) {
+                    const confirmBtn = document.getElementById('confirm-btn');
+                    if (confirmBtn) {
+                        // Don't trigger default action on confirmation modals
+                    } else {
+                       closeModal();
+                    }
+                }
+            });
+            [modalOverlay, gameOverModal, nicknameModalOverlay].forEach(overlay => {
+                overlay.addEventListener('click', (e) => {
+                    if (e.target === overlay) {
+                        if (overlay.id === 'modal-overlay') closeModal();
+                        // Don't close game over or nickname modals by clicking outside
+                    }
+                });
+            });
+        };
+    </script>
+</body>
+</html>
+
