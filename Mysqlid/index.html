@@ -1,0 +1,568 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MySQL Identity</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/sql-wasm.js"></script>
+    <style>
+        body {
+            font-family: 'Fira Code', monospace;
+            background-color: #0d1117;
+            color: #c9d1d9;
+        }
+        .terminal-text { color: #58a6ff; }
+        .hidden { display: none; }
+        .sql-editor { background-color: #010409; border-color: #30363d; color: #79c0ff; }
+        .result-box { background-color: #161b22; border: 1px solid #30363d; }
+        .success-glow { box-shadow: 0 0 15px 5px rgba(56, 139, 253, 0.4); }
+        .error-glow { box-shadow: 0 0 15px 5px rgba(248, 81, 73, 0.4); }
+        .typewriter-container p {
+            overflow: hidden;
+            white-space: nowrap;
+            animation: typing 2.5s steps(40, end);
+            width: 100%;
+        }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="fixed inset-0 flex flex-col items-center justify-center bg-[#0d1117] z-50">
+        <svg class="animate-spin h-10 w-10 text-[#58a6ff] mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <p class="text-lg">Initializing Identity Protocol...</p>
+    </div>
+
+    <!-- Name Input Screen -->
+    <div id="name-screen" class="hidden min-h-screen flex items-center justify-center bg-[#0d1117]">
+        <div class="text-center">
+            <label for="name-input" class="text-2xl terminal-text block mb-4">ENTER YOUR NAME TO BEGIN:</label>
+            <input type="text" id="name-input" class="bg-transparent border-b-2 border-[#58a6ff] text-2xl text-center text-white focus:outline-none w-80 mb-4">
+            <button id="enter-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-8 rounded-md transition-colors">Enter</button>
+        </div>
+    </div>
+
+    <!-- Wake-Up Screen -->
+    <div id="wakeup-screen" class="hidden min-h-screen flex items-center justify-center bg-black cursor-pointer">
+        <div id="wakeup-prompt" class="text-2xl text-gray-400">click anywhere...</div>
+        <div id="story-sequence" class="hidden text-xl md:text-2xl text-gray-300 space-y-4 typewriter-container">
+            <!-- Story text will be injected here -->
+        </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="game-screen" class="hidden min-h-screen p-4 md:p-6 lg:p-8">
+        <header class="flex justify-between items-center mb-4 text-lg">
+            <h1 class="font-bold text-2xl text-green-400">MySQL IDENTITY</h1>
+            <div class="flex items-center space-x-6">
+                <div id="timer" class="text-yellow-400">⏱️ 20:00</div>
+                <div id="reveal-counter" class="text-orange-400">Reveals: 0/3</div>
+                <div id="task-counter" class="text-cyan-400">Task: 1/5</div>
+            </div>
+        </header>
+
+        <main class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div id="task-panel" class="lg:col-span-1 bg-[#161b22] p-6 rounded-lg border border-[#30363d]">
+                <h2 id="task-title" class="text-2xl font-bold text-green-400 mb-4"></h2>
+                <p id="task-narrative" class="text-gray-300 mb-4"></p>
+                <p id="task-objective" class="text-amber-300 font-semibold"></p>
+                <div id="hint-box" class="mt-6 p-4 bg-[#010409] rounded-md border border-dashed border-[#30363d] hidden">
+                    <h3 class="font-bold text-yellow-400 mb-2">Hint:</h3>
+                    <p id="hint-text"></p>
+                </div>
+            </div>
+
+            <div class="lg:col-span-1 flex flex-col gap-6">
+                <div class="bg-[#161b22] p-6 rounded-lg border border-[#30363d] flex flex-col">
+                    <h2 class="text-xl font-bold text-amber-400 mb-4">SQL Editor</h2>
+                    <textarea id="sql-editor" class="sql-editor w-full flex-grow rounded-md p-3 text-lg" rows="8"></textarea>
+                    <div class="flex justify-between items-center mt-4">
+                        <div class="text-sm text-gray-400">Attempts left: <span id="attempt-counter">3</span></div>
+                        <div class="flex gap-2">
+                           <button id="preview-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md transition-colors">Preview</button>
+                           <button id="submit-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition-colors disabled:bg-gray-600 disabled:cursor-not-allowed" disabled>Submit</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="result-box" class="result-box p-4 rounded-lg flex-grow overflow-auto">
+                    <div id="result-message" class="text-center text-gray-500">Preview your query...</div>
+                    <div id="feedback-container" class="hidden mt-4">
+                         <h3 class="font-bold text-red-400 mb-2">Feedback:</h3>
+                         <p id="feedback-text"></p>
+                    </div>
+                    <button id="reveal-btn" class="hidden mt-4 w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded-md">Reveal Answer</button>
+                    <table id="results-table" class="hidden w-full text-sm text-left mt-4"></table>
+                </div>
+            </div>
+
+            <div class="lg:col-span-1 bg-[#161b22] p-6 rounded-lg border border-[#30363d]">
+                <h2 class="text-xl font-bold text-cyan-400 mb-4">Data Explorer</h2>
+                <p class="text-sm text-gray-500 mb-4">Click tables to explore their structure and sample data.</p>
+                <div id="data-explorer" class="space-y-2"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Final Screens -->
+    <div id="final-screen" class="hidden min-h-screen flex items-center justify-center text-center p-4">
+        <div>
+            <h1 id="final-title" class="text-4xl font-bold mb-4"></h1>
+            <p id="final-message" class="text-xl"></p>
+        </div>
+    </div>
+    
+    <!-- Quiz Modal -->
+    <div id="quiz-modal" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-40 p-4">
+        <div class="bg-[#161b22] rounded-lg p-8 max-w-lg w-full border-2 border-amber-500">
+            <h2 id="quiz-question" class="text-2xl font-bold mb-6 text-amber-400"></h2>
+            <div id="quiz-options" class="space-y-3 mb-6"></div>
+            <div id="quiz-feedback" class="p-3 bg-[#010409] rounded-md hidden"></div>
+        </div>
+    </div>
+    
+    <!-- Info Modal (Game Over) -->
+    <div id="info-modal" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-40 p-4">
+        <div class="bg-[#161b22] rounded-lg p-8 max-w-lg w-full border-2 border-red-500 text-center">
+            <h2 id="info-title" class="text-3xl font-bold mb-4 text-red-400"></h2>
+            <p id="info-message" class="text-lg mb-6"></p>
+            <button id="info-btn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-md">Restart Game</button>
+        </div>
+    </div>
+
+
+    <script type="module">
+        // --- DOM Elements ---
+        const screens = { loading: document.getElementById('loading-screen'), name: document.getElementById('name-screen'), wakeup: document.getElementById('wakeup-screen'), game: document.getElementById('game-screen'), final: document.getElementById('final-screen') };
+        const nameInput = document.getElementById('name-input'), enterBtn = document.getElementById('enter-btn');
+        const wakeupPrompt = document.getElementById('wakeup-prompt'), storySequence = document.getElementById('story-sequence');
+        const hud = { timer: document.getElementById('timer'), revealCounter: document.getElementById('reveal-counter'), taskCounter: document.getElementById('task-counter') };
+        const taskPanel = { title: document.getElementById('task-title'), narrative: document.getElementById('task-narrative'), objective: document.getElementById('task-objective'), hintBox: document.getElementById('hint-box'), hintText: document.getElementById('hint-text') };
+        const editorPanel = { editor: document.getElementById('sql-editor'), attemptCounter: document.getElementById('attempt-counter'), previewBtn: document.getElementById('preview-btn'), submitBtn: document.getElementById('submit-btn'), resultBox: document.getElementById('result-box'), resultMessage: document.getElementById('result-message'), feedbackContainer: document.getElementById('feedback-container'), feedbackText: document.getElementById('feedback-text'), revealBtn: document.getElementById('reveal-btn'), resultsTable: document.getElementById('results-table') };
+        const dataExplorerEl = document.getElementById('data-explorer');
+        const finalScreen = { title: document.getElementById('final-title'), message: document.getElementById('final-message') };
+        const quiz = { modal: document.getElementById('quiz-modal'), question: document.getElementById('quiz-question'), options: document.getElementById('quiz-options'), feedback: document.getElementById('quiz-feedback') };
+        const infoModal = { modal: document.getElementById('info-modal'), title: document.getElementById('info-title'), message: document.getElementById('info-message'), btn: document.getElementById('info-btn') };
+
+        // --- Game State ---
+        let db, lastPreviewResult = null;
+        let gameState = { playerName: '', currentTask: 0, timeLeft: 1200, attemptsLeft: 3, revealsUsed: 0, timerInterval: null, status: 'playing' };
+        
+        // --- Game Content ---
+        const tasks = [
+            {
+                title: "Task 1: What is this place?",
+                narrative: "You awaken in a cold, dark room. There’s a humming computer screen with a blinking terminal. A directory titled 'Facilities' stands out — your first clue. Maybe this isn’t just an office.",
+                objective: "Look at everything in the Facilities table. Understand your environment.",
+                skill: "Use SELECT * FROM table_name to view all records and columns.",
+                hints: ["To see everything in a table, you need to SELECT all columns. What symbol represents 'all'?", "The syntax is `SELECT * FROM TableName;`."],
+                expectedSQL: "SELECT * FROM Facilities;",
+                solutionCheck: (res) => res && res.length > 0 && res[0].columns.length === 4 && res[0].values.length === 4,
+                successNarrative: "The screen scrolls rapidly. You scan the facility names... It hits you — this isn’t a regular building. It’s a testing compound. A new message types itself: “IDENTITY SEARCH INITIATED…”",
+                errorPattern: { type: 'select_star', check: (q) => !q.includes('*') }
+            },
+            {
+                title: "Task 2: Who am I?",
+                narrative: "You notice a digital sticky note on the screen. It says: Your ID is 10. Could that be you?",
+                objective: "Search for your own record in the Participants table using your ID.",
+                skill: "Use WHERE to filter records by ID.",
+                hints: ["To find a specific row, you need to filter the results. Which clause is used for filtering?", "Use `WHERE ID = 10` to find the correct participant."],
+                expectedSQL: "SELECT * FROM Participants WHERE ID = 10;",
+                solutionCheck: (res) => res && res.length > 0 && res[0].values.length === 1 && res[0].values[0][0] === 10,
+                successNarrative: "Your name flashes on screen. It's you. You're a participant. A chosen contestant in a high-stakes reality show! Next prompt: “TRACKING SPONSOR RECORD…”",
+                errorPattern: { type: 'where', check: (q) => !q.toLowerCase().includes('where') }
+            },
+            {
+                title: "Task 3: Who brought me here?",
+                narrative: "You see a SponsorID linked to each participant record. Who is behind everyone's involvement?",
+                objective: "Return a list of every participant's name and their corresponding sponsor's organization.",
+                skill: "Perform an INNER JOIN between Participants and Sponsors on SponsorID.",
+                hints: ["You need to combine data from two tables. What kind of JOIN brings matching records from both?", "Join `Participants` and `Sponsors` ON `Participants.SponsorID = Sponsors.SponsorID`."],
+                expectedSQL: "SELECT p.Name, s.Organization FROM Participants p INNER JOIN Sponsors s ON p.SponsorID = s.SponsorID;",
+                solutionCheck: (res) => res && res.length > 0 && res[0].columns.length === 2 && res[0].values.length === 4,
+                successNarrative: "A list of names and corporate logos appears. You see your sponsor. A new message types: “STATUS OF REMAINING PARTICIPANTS: REQUESTED”",
+                errorPattern: { type: 'join', check: (q) => !q.toLowerCase().includes('join') }
+            },
+            {
+                title: "Task 4: How many are still playing?",
+                narrative: "The system shows a long list of players. Many are marked 'Eliminated.' You need to know who’s still in the game.",
+                objective: "Count how many participants are still marked as 'Active'.",
+                skill: "Use COUNT(*) with a WHERE condition.",
+                hints: ["You need to count rows that meet a specific condition. Which aggregate function counts rows?", "Combine `COUNT(*)` with a `WHERE Status = 'Active'` clause."],
+                expectedSQL: "SELECT COUNT(*) FROM Participants WHERE Status = 'Active';",
+                solutionCheck: (res) => res && res.length > 0 && res[0].values[0][0] === 3,
+                successNarrative: "Only a handful remain. The weight of the competition sets in. New text fades in: “LEADERBOARD LOADING…”",
+                errorPattern: { type: 'count', check: (q) => !q.toLowerCase().includes('count') }
+            },
+            {
+                title: "Task 5: Who is winning?",
+                narrative: "A leaderboard interface loads. You can see your challenge scores. You want to know who’s on top.",
+                objective: "Find the total points for each player, name the new column 'TotalPoints', and sort them by highest score.",
+                skill: "Use SUM(), GROUP BY, AS for aliasing, and ORDER BY.",
+                hints: ["You need to sum points for each player. This requires grouping the results. Which clause does that?", "Use `SUM(Points) AS TotalPoints`, then `GROUP BY PlayerName`, and finally `ORDER BY TotalPoints DESC`."],
+                expectedSQL: "SELECT PlayerName, SUM(Points) AS TotalPoints FROM Scores GROUP BY PlayerName ORDER BY TotalPoints DESC;",
+                solutionCheck: (res) => {
+                    if (!res || res.length === 0 || res[0].columns.length !== 2 || res[0].columns[1] !== 'TotalPoints') return false;
+                    const values = res[0].values;
+                    return values[0][0] === gameState.playerName && values[0][1] > values[1][1];
+                },
+                successNarrative: "The leaderboard stabilizes. At the top, your name appears. You feel your memory solidify. “PLAYER VERIFIED. MEMORY RESTORED. WINNER CONFIRMED.”",
+                errorPattern: { type: 'group_by', check: (q) => !q.toLowerCase().includes('group by') }
+            }
+        ];
+        const quizzes = {
+            'where': { question: "What keyword do we use to filter rows based on a condition?", options: ["FILTER", "WHERE", "SELECT IF", "LIMIT"], correct: 1, feedback: "Correct! The `WHERE` clause is used to extract only those records that fulfill a specified condition." },
+            'join': { question: "Which `JOIN` returns records that have matching values in both tables?", options: ["FULL JOIN", "LEFT JOIN", "INNER JOIN", "ALL JOIN"], correct: 2, feedback: "Exactly! `INNER JOIN` is perfect for finding matching records between two tables." },
+            'group_by': { question: "To use an aggregate function like SUM() on groups of rows, what clause is required?", options: ["CLUSTER BY", "AGGREGATE BY", "SUMMARIZE", "GROUP BY"], correct: 3, feedback: "That's right! `GROUP BY` groups rows that have the same values into summary rows, like 'find the total points for each player'." },
+            'count': { question: "Which function is used to count the number of rows?", options: ["ROWS()", "NUMBER()", "COUNT()", "TOTAL()"], correct: 2, feedback: "Perfect! `COUNT()` is used to return the number of rows that matches a specified criterion." },
+            'select_star': { question: "What symbol is a shortcut to select ALL columns from a table?", options: ["#", "!", "*", "&"], correct: 2, feedback: "You got it! The asterisk `*` is the universal symbol for 'all columns' in SQL." }
+        };
+
+        // --- Core Functions ---
+
+        async function init() {
+            try {
+                const SQL = await initSqlJs({ locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/${file}` });
+                db = new SQL.Database();
+                setupDatabase();
+                showScreen('name');
+            } catch (err) {
+                console.error("Initialization failed:", err);
+                screens.loading.innerHTML = '<p class="text-red-500">Error: Could not initialize database protocol. Please refresh.</p>';
+            }
+        }
+
+        function setupDatabase() {
+            db.run(`CREATE TABLE Facilities (ID INTEGER, Name TEXT, Type TEXT, Capacity INTEGER); INSERT INTO Facilities VALUES (1, 'Control Room', 'Operations', 5), (2, 'Server Room', 'Infrastructure', 2), (3, 'Break Room', 'Amenities', 20), (4, 'Testing Compound A', 'Research', 15);`);
+            db.run(`CREATE TABLE Participants (ID INTEGER, Name TEXT, SponsorID INTEGER, Status TEXT); INSERT INTO Participants VALUES (10, 'PLACEHOLDER_NAME', 101, 'Active'), (12, 'Alex', 102, 'Active'), (15, 'Sam', 101, 'Eliminated'), (18, 'Jess', 103, 'Active'), (21, 'Max', 104, 'Eliminated');`);
+            db.run(`CREATE TABLE Sponsors (SponsorID INTEGER, Organization TEXT, Industry TEXT); INSERT INTO Sponsors VALUES (101, 'TechCorp Inc.', 'Technology'), (102, 'Innovate LLC', 'Biotech'), (103, 'Data-Driven Co.', 'Finance'), (105, 'Global Solutions', 'Consulting');`);
+            db.run(`CREATE TABLE Scores (PlayerName TEXT, Challenge INTEGER, Points INTEGER);`);
+        }
+        
+        function enterGame() {
+            if (!nameInput.value.trim()) return;
+            gameState.playerName = nameInput.value.trim();
+            showScreen('wakeup');
+        }
+
+        function startGame() {
+            db.run(`UPDATE Participants SET Name = '${gameState.playerName}' WHERE ID = 10;`);
+            db.run(`DELETE FROM Scores;`);
+            db.run(`INSERT INTO Scores VALUES ('${gameState.playerName}', 1, 100), ('${gameState.playerName}', 2, 150), ('${gameState.playerName}', 3, 120), ('Alex', 1, 90), ('Alex', 2, 130), ('Jess', 1, 110), ('Jess', 2, 100), ('Jess', 3, 110);`);
+            showScreen('game');
+            setupDataExplorer();
+            loadTask(0);
+            startTimer();
+        }
+
+        function showScreen(screenName) {
+            Object.values(screens).forEach(s => s.classList.add('hidden'));
+            screens[screenName].classList.remove('hidden');
+        }
+
+        function startTimer() {
+            gameState.timerInterval = setInterval(() => {
+                gameState.timeLeft--;
+                const minutes = Math.floor(gameState.timeLeft / 60);
+                const seconds = gameState.timeLeft % 60;
+                hud.timer.textContent = `⏱️ ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                if (gameState.timeLeft <= 0) endGame('lost-time');
+            }, 1000);
+        }
+
+        function loadTask(taskIndex) {
+            const task = tasks[taskIndex];
+            gameState.currentTask = taskIndex;
+            gameState.attemptsLeft = 3;
+            hud.taskCounter.textContent = `Task: ${taskIndex + 1}/5`;
+            editorPanel.attemptCounter.textContent = gameState.attemptsLeft;
+            taskPanel.title.textContent = task.title;
+            taskPanel.narrative.textContent = task.narrative;
+            taskPanel.objective.textContent = task.objective;
+            editorPanel.editor.value = '';
+            resetResultBox();
+        }
+
+        function resetResultBox() {
+            editorPanel.resultBox.classList.remove('success-glow', 'error-glow');
+            editorPanel.resultMessage.textContent = 'Preview your query...';
+            editorPanel.resultMessage.className = 'text-center text-gray-500';
+            editorPanel.feedbackContainer.classList.add('hidden');
+            taskPanel.hintBox.classList.add('hidden');
+            editorPanel.revealBtn.classList.add('hidden');
+            editorPanel.submitBtn.disabled = true;
+            editorPanel.previewBtn.disabled = false;
+            editorPanel.resultsTable.classList.add('hidden');
+            lastPreviewResult = null;
+        }
+
+        function handlePreviewQuery() {
+            const query = editorPanel.editor.value;
+            editorPanel.resultMessage.classList.remove('hidden');
+            editorPanel.resultsTable.classList.add('hidden');
+            editorPanel.feedbackContainer.classList.add('hidden'); // Clear previous feedback
+
+            if (!query.trim()) {
+                editorPanel.resultMessage.textContent = "Please enter a query to preview.";
+                return;
+            }
+
+            try {
+                const results = db.exec(query);
+                lastPreviewResult = results;
+                editorPanel.submitBtn.disabled = false;
+                editorPanel.resultMessage.textContent = "Preview successful. You can now submit your answer.";
+                editorPanel.resultMessage.className = 'text-green-400';
+                if (results.length > 0) {
+                    renderTable(results[0]);
+                } else {
+                     editorPanel.resultMessage.textContent += " (Query returned no rows)";
+                }
+            } catch (e) {
+                lastPreviewResult = null;
+                editorPanel.submitBtn.disabled = true;
+                editorPanel.resultMessage.textContent = `SQL Error: ${e.message}`;
+                editorPanel.resultMessage.className = 'text-red-400';
+            }
+        }
+
+        function handleSubmitAnswer() {
+            const task = tasks[gameState.currentTask];
+            if (task.solutionCheck(lastPreviewResult)) {
+                showCorrect();
+            } else {
+                showIncorrect();
+            }
+        }
+
+        function showCorrect() {
+            const task = tasks[gameState.currentTask];
+            editorPanel.resultBox.classList.add('success-glow');
+            editorPanel.resultMessage.textContent = '✅ CORRECT. ' + task.successNarrative;
+            editorPanel.resultMessage.className = 'text-green-400';
+            editorPanel.previewBtn.disabled = true;
+            editorPanel.submitBtn.disabled = true;
+
+            setTimeout(() => {
+                if (gameState.currentTask < tasks.length - 1) {
+                    loadTask(gameState.currentTask + 1);
+                } else {
+                    endGame('won');
+                }
+            }, 4000);
+        }
+
+        async function showIncorrect() {
+            gameState.attemptsLeft--;
+            editorPanel.attemptCounter.textContent = gameState.attemptsLeft;
+            editorPanel.resultBox.classList.add('error-glow');
+            editorPanel.resultMessage.textContent = `❌ INCORRECT. The data doesn't match the objective.`;
+            editorPanel.resultMessage.className = 'text-red-400';
+            editorPanel.submitBtn.disabled = true;
+
+            const task = tasks[gameState.currentTask];
+            const userQuery = editorPanel.editor.value;
+
+            // Quiz logic: ONLY on the first fail (when attempts left becomes 2)
+            if (gameState.attemptsLeft === 2 && task.errorPattern && task.errorPattern.check(userQuery)) {
+                triggerQuiz(task.errorPattern.type, async () => {
+                    await getAndShowAIFeedback(userQuery);
+                });
+            } else {
+                await getAndShowAIFeedback(userQuery);
+            }
+
+            // Hint logic: Show for first and second failures
+            if (gameState.attemptsLeft > 0) {
+                const hint = task.hints[2 - gameState.attemptsLeft];
+                taskPanel.hintText.textContent = hint;
+                taskPanel.hintBox.classList.remove('hidden');
+            }
+
+            // Reveal button logic: Show after the second failure (when 1 attempt is left)
+            if (gameState.attemptsLeft === 1) {
+                editorPanel.revealBtn.classList.remove('hidden');
+            }
+
+            // Game over logic: After the third failure (when 0 attempts are left)
+            if (gameState.attemptsLeft === 0) {
+                editorPanel.previewBtn.disabled = true;
+                editorPanel.submitBtn.disabled = true;
+                showInfoModal("Game Over", "Too many incorrect attempts on this task. Your identity is fading...", "Restart Game", () => {
+                    window.location.reload();
+                });
+            }
+        }
+        
+        async function getAndShowAIFeedback(userQuery) {
+            editorPanel.feedbackContainer.classList.remove('hidden');
+            editorPanel.feedbackText.textContent = "Analyzing your query...";
+            const aiHint = await getAIFeedback(userQuery);
+            editorPanel.feedbackText.innerHTML = aiHint;
+        }
+
+        async function getAIFeedback(userQuery) {
+            const task = tasks[gameState.currentTask];
+            const prompt = `
+                I am a student playing an SQL game. My query was incorrect.
+                My Task Objective: "${task.objective}"
+                The skill I am practicing is: "${task.skill}"
+                My incorrect query was: \`${userQuery}\`
+                The correct query looks something like this (don't show this to the user): \`${task.expectedSQL}\`
+                Please provide a short, helpful, Socratic-style hint (as a single paragraph) to guide me to the correct answer without giving it away directly. For example, ask me a question about a missing clause or a wrong function.
+            `;
+            try {
+                let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+                const payload = { contents: chatHistory };
+                
+                // --- Obfuscated API Key ---
+                const scrambledKey = "QUl6YVN5Q05sNFktWEtFcG00Y3VpMlJuTWNPdllmYVlaRTdUZEhF";
+                const apiKey = atob(scrambledKey); // Decodes the key right before use
+                // --------------------------
+
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                if (!response.ok) throw new Error(`API request failed with status ${response.status}`);
+                const result = await response.json();
+                if (result.candidates && result.candidates.length > 0) return result.candidates[0].content.parts[0].text;
+                return "Could not generate AI feedback at this time.";
+            } catch (error) {
+                console.error("AI Feedback Error:", error);
+                return "Error connecting to the AI. Please check your query syntax.";
+            }
+        }
+        
+        function triggerQuiz(quizType, onQuizCloseCallback) {
+            const data = quizzes[quizType];
+            if (!data) return;
+
+            quiz.question.textContent = data.question;
+            quiz.options.innerHTML = '';
+            quiz.feedback.classList.add('hidden');
+
+            data.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-3 bg-[#0d1117] rounded-md hover:bg-blue-800 transition-colors";
+                btn.textContent = opt;
+                btn.onclick = () => {
+                    quiz.feedback.classList.remove('hidden');
+                    if (index === data.correct) {
+                        quiz.feedback.textContent = data.feedback;
+                        quiz.feedback.className = "p-3 bg-green-900 text-green-300 rounded-md";
+                        setTimeout(() => {
+                            quiz.modal.classList.add('hidden');
+                            if (onQuizCloseCallback) onQuizCloseCallback();
+                        }, 2500);
+                    } else {
+                        quiz.feedback.textContent = "Not quite, try another answer.";
+                        quiz.feedback.className = "p-3 bg-red-900 text-red-300 rounded-md";
+                    }
+                };
+                quiz.options.appendChild(btn);
+            });
+            quiz.modal.classList.remove('hidden');
+        }
+        
+        function renderTable(data) {
+            editorPanel.resultMessage.classList.add('hidden');
+            editorPanel.resultsTable.classList.remove('hidden');
+            let head = `<thead><tr>${data.columns.map(c => `<th class="p-1 border-b border-[#30363d]">${c}</th>`).join('')}</tr></thead>`;
+            let body = `<tbody>${data.values.map(row => `<tr>${row.map(cell => `<td class="p-1">${cell === null ? 'NULL' : cell}</td>`).join('')}</tr>`).join('')}</tbody>`;
+            editorPanel.resultsTable.innerHTML = head + body;
+        }
+
+        function handleReveal() {
+            gameState.revealsUsed++;
+            hud.revealCounter.textContent = `Reveals: ${gameState.revealsUsed}/3`;
+            if (gameState.revealsUsed >= 3) {
+                endGame('lost-reveals');
+                return;
+            }
+            gameState.timeLeft = Math.ceil(gameState.timeLeft / 2);
+            const task = tasks[gameState.currentTask];
+            editorPanel.editor.value = task.expectedSQL;
+            handlePreviewQuery();
+            setTimeout(showCorrect, 500);
+        }
+
+        function setupDataExplorer() {
+            const tables = db.exec("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%';")[0].values;
+            dataExplorerEl.innerHTML = tables.map(tableArr => {
+                const tableName = tableArr[0];
+                const schema = db.exec(`PRAGMA table_info(${tableName});`)[0].values;
+                const sample = db.exec(`SELECT * FROM ${tableName} LIMIT 3;`)[0];
+                return `
+                    <details class="bg-[#010409] rounded-md border border-[#30363d]">
+                        <summary class="p-3 cursor-pointer font-semibold text-green-400">${tableName}</summary>
+                        <div class="p-3 border-t border-[#30363d]">
+                            <h4 class="font-bold mb-2 text-cyan-400">Schema:</h4>
+                            <ul class="text-sm list-disc list-inside mb-4">${schema.map(col => `<li>${col[1]}: <span class="text-gray-400">${col[2]}</span></li>`).join('')}</ul>
+                            <h4 class="font-bold mb-2 text-cyan-400">Sample Data:</h4>
+                            <table class="w-full text-xs text-left">
+                                <thead><tr>${sample.columns.map(c => `<th class="p-1 border-b border-[#30363d]">${c}</th>`).join('')}</tr></thead>
+                                <tbody>${sample.values.map(row => `<tr>${row.map(cell => `<td class="p-1">${cell}</td>`).join('')}</tr>`).join('')}</tbody>
+                            </table>
+                        </div>
+                    </details>`;
+            }).join('');
+        }
+        
+        function showInfoModal(title, message, btnText, btnAction) {
+            infoModal.title.textContent = title;
+            infoModal.message.textContent = message;
+            infoModal.btn.textContent = btnText;
+            infoModal.btn.onclick = btnAction;
+            infoModal.modal.classList.remove('hidden');
+        }
+
+        function endGame(reason) {
+            clearInterval(gameState.timerInterval);
+            gameState.status = reason;
+            const messages = {
+                'won': { title: "MEMORY RESTORED", msg: `You remember everything. ${gameState.playerName}. Analyst. Finalist. Welcome back. The cash prize is yours... if you can remember your bank account password.`, class: 'text-green-400' },
+                'lost-time': { title: "TIME'S UP", msg: "You ran out of time. You faded from the leaderboard.", class: 'text-red-500' },
+                'lost-reveals': { title: "DISQUALIFIED", msg: "You relied too much on help. You’ve been disqualified.", class: 'text-red-500' }
+            };
+            finalScreen.title.textContent = messages[reason].title;
+            finalScreen.title.className = `text-4xl font-bold mb-4 ${messages[reason].class}`;
+            finalScreen.message.textContent = messages[reason].msg;
+            showScreen('final');
+        }
+
+        // --- Event Listeners ---
+        enterBtn.addEventListener('click', enterGame);
+        nameInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') enterGame(); });
+
+        screens.wakeup.addEventListener('click', () => {
+            wakeupPrompt.classList.add('hidden');
+            storySequence.classList.remove('hidden');
+            const storyLines = ["You wake up. It's dark. Your head hurts.", "A computer screen glows in the corner...", "Welcome, contestant. This is MySQL Identity.", "The prize? $100,000. The time? 20 minutes.", "Win this last game. Or disappear from the leaderboard forever."];
+            let delay = 0;
+            storyLines.forEach(line => {
+                setTimeout(() => {
+                    const p = document.createElement('p');
+                    p.textContent = line;
+                    storySequence.appendChild(p);
+                }, delay);
+                delay += 2500;
+            });
+            setTimeout(startGame, delay);
+        }, { once: true });
+
+        editorPanel.previewBtn.addEventListener('click', handlePreviewQuery);
+        editorPanel.submitBtn.addEventListener('click', handleSubmitAnswer);
+        editorPanel.revealBtn.addEventListener('click', handleReveal);
+        
+        window.onload = init;
+    </script>
+</body>
+</html>
